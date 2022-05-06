@@ -1,0 +1,24 @@
+{
+  "name": "glanceandgo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/majkelEXE/Glance-Go.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/majkelEXE/Glance-Go/issues"
+  },
+  "homepage": "https://github.com/majkelEXE/Glance-Go#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "ws": "^8.6.0"
+  }
+}
