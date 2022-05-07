@@ -2,9 +2,13 @@ import { net } from "./Main.js";
 
 class Ui {
   constructor() {
-    document.getElementById("testButton").addEventListener("click", () => {
-      net.socket.send("Wiadomosc ode mnie");
-      //console.log(net);
+    document.getElementById("joinRoom").addEventListener("click", () => {
+      var message = {
+        type: "createJoinRoom",
+        roomName: document.getElementById("roomNameInput").value,
+        id: document.getElementById("nickInput").value,
+      };
+      net.sendMessage(message);
     });
   }
 }

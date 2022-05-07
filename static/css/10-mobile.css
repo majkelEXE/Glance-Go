@@ -1,0 +1,20 @@
+@import "00-reset.css";
+@import "02-global.css";
+/* Teoretycznie tutaj moglibyśmy zaimportować 01-variables, ale przypadek, gdy na początku strony ładujemy ten plik, jest równie dobra */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: var(--main-font-size);
+}
+
+body {
+  color: var(--txt-color);
+}
+
+#manageRoomMenu {
+  display: none;
+}
