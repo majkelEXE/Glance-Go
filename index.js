@@ -11,7 +11,7 @@ const server = app.listen(PORT, function () {
 });
 
 app.get("/", function (req, res) {
-  res.sendFile(path.join(__dirname + "/static/file1.html"));
+  res.sendFile(path.join(__dirname + "/static/index.html"));
 });
 
 const wss = new ws.WebSocketServer({ server });
