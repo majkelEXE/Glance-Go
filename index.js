@@ -39,11 +39,28 @@ wss.on("connection", function connection(ws) {
     data = JSON.parse(data);
 
     switch (data.type) {
-      case "createJoinRoom":
+      case "createRoom":
         const roomCardSetter = new CardSetter();
         let cardSet = roomCardSetter.renderCardSet();
-        console.log(cardSet);
 
+        var room = {
+          roomName: data.roomName,
+          roomOwner: data.clientId,
+          clients: [],
+          cards: cardSet,
+        };
+
+        coll_rooms.insertOne(room, function (err, res) {
+          if (err) throw err;
+          ws.send("Pokoj zostal utworzony");
+        });
+
+        break;
+      case "joinRoom":
+        coll_rooms.findOne({ roomName: data.roomName }, function (err, result) {
+          if (err) throw err;
+          console.log(result);
+        });
         break;
     }
 
