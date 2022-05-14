@@ -20,6 +20,13 @@ class Ui {
       net.sendMessage(message);
     });
   }
+
+  showQueue = () => {
+    document.getElementById("joinRoomMenu").style.display = "none";
+    document.getElementById("manageRoomMenu").style.display = "block";
+  };
+
+  //TODO: There is a possibility to function for displaying alerts here, but i dont knwo if it has any sense.
 }
 
 export default Ui;

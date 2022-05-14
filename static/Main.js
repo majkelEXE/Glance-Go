@@ -12,4 +12,4 @@ window.onload = () => {
   ui = new Ui();
 };
 
-export { net };
+export { net, ui };
