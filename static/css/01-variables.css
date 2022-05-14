@@ -1,6 +1,7 @@
 :root {
   --txt-color: black;
-  --bg-color: rgb(32, 32, 32);
+  --bg-color: rgb(2, 3, 32);
+  --txt-on-bg-color: white;
   --box-color: rgb(52, 52, 52);
   --content-color: rgb(62, 72, 82);
   --global-text-color: seashell;

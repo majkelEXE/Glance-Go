@@ -7,7 +7,13 @@
     <!--  -->
     <link rel="stylesheet" href="css/01-variables.css" />
     <link rel="stylesheet" href="css/02-global.css" />
-
+    <!--  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&family=Mukta:wght@300;400&family=Poppins:wght@200;300;400&display=swap"
+      rel="stylesheet"
+    />
     <!--  -->
     <title>Document</title>
     <script src="./libs/three.js"></script>
@@ -15,14 +21,20 @@
   </head>
   <body>
     <div id="joinRoomMenu">
-      <h1>GLANCE&GO</h1>
-      <label>Nazwa pokoju<input type="text" id="roomNameInput" /></label>
-      <label>Twój nick<input type="text" id="nickInput" /></label>
-      <button id="createRoom">Utwórz pokój</button>
-      <button id="joinRoom">Dołącz do pokoju</button>
+      <h1 class="gameTitleMenu">GLANCE&GO</h1>
+      <label class="settingsLabel"
+        >Nazwa pokoju<input type="text" id="roomNameInput"
+      /></label>
+      <label class="settingsLabel"
+        >Twój nick<input type="text" id="nickInput"
+      /></label>
+      <div class="settingsDiv">
+        <button id="createRoom">Utwórz pokój</button>
+        <button id="joinRoom">Dołącz do pokoju</button>
+      </div>
     </div>
     <div id="manageRoomMenu">
-      <h1>GLANCE&GO</h1>
+      <h1 class="gameTitleMenu">GLANCE&GO</h1>
       <div id="usersInRoom"></div>
       <button id="startRoom">Rozpocznij</button>
     </div>
