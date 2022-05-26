@@ -22,12 +22,14 @@
   <body>
     <div id="joinRoomMenu">
       <h1 class="gameTitleMenu">GLANCE&GO</h1>
-      <label class="settingsLabel"
-        >Nazwa pokoju<input type="text" id="roomNameInput"
-      /></label>
-      <label class="settingsLabel"
-        >Twój nick<input type="text" id="nickInput"
-      /></label>
+      <div class="settingsLabel">
+        <p>Nazwa pokoju</p>
+        <input type="text" id="roomNameInput" />
+      </div>
+      <div class="settingsLabel">
+        <p>Twój nick</p>
+        <input type="text" id="nickInput" />
+      </div>
       <div class="settingsDiv">
         <button id="createRoom">Utwórz pokój</button>
         <button id="joinRoom">Dołącz do pokoju</button>
@@ -40,6 +42,7 @@
       <div id="queueInterface">
         <div id="usersInRoomSection">
           <div class="subtitleQueueInterface">Users</div>
+          <div id="usersInRoomList"></div>
         </div>
         <div id="mainQueueSection">
           <button id="startRoom">Start</button>
@@ -50,6 +53,6 @@
       </div>
     </div>
 
-    <div id="root"></div>
+    <!-- <div id="root"></div> -->
   </body>
 </html>

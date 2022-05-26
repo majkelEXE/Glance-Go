@@ -1,5 +1,5 @@
 :root {
-  --txt-color: black;
+  /* --txt-color: black;
   --bg-color: rgb(2, 3, 32);
   --txt-on-bg-color: white;
   --box-color: rgb(52, 52, 52);
@@ -7,7 +7,14 @@
   --global-text-color: seashell;
   --global-border-color: lightgrey;
   --link-color: seashell;
-  --link-hover-color: lightsalmon;
+  --link-hover-color: lightsalmon; */
+
+  --main-color: #001840;
+  --dark-main-color: #000b1c;
+  --font-color: white;
+
+  --button-color: white;
+  --dark-button-color: rgb(200, 200, 200);
 
   --main-font-size: 16px;
 }
