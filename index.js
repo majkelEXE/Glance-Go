@@ -10,23 +10,19 @@ var Card = require("./schemes/Card");
 var Client = require("./schemes/Client");
 var Room = require("./schemes/Room");
 
-
-
 //ZMIENNE Z DANYMI DYNAMICZNYMI
-var rooms = []
+var rooms = [];
 //
 
 app.use(express.static("static"));
 
 const server = app.listen(PORT, function () {
-  console.log("start serwera na porcie " + PORT);
+  console.log("http://localhost:" + PORT);
 });
 
 app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname + "/static/index.html"));
 });
-
-
 
 const wss = new ws.WebSocketServer({ server });
 
@@ -40,102 +36,135 @@ wss.on("connection", function connection(ws) {
 
     switch (data.type) {
       case "createRoom":
-        if(rooms.filter(room => room.roomName == data.roomName).length == 0){
+        if (
+          rooms.filter((room) => room.roomName == data.roomName).length == 0
+        ) {
           const roomCardSetter = new CardSetter();
           //let cardSet = roomCardSetter.renderCardSet();
-          var ownerClient = new Client(data.clientName, ws)
-          rooms.push(new Room(data.roomName, ownerClient))
+          var ownerClient = new Client(data.clientName, ws);
+          var room = new Room(data.roomName, ownerClient);
+          rooms.push(room);
+
+          let refreshData = JSON.stringify({
+            message: "refreshClients",
+            roomClients: room.clients,
+          });
           ws.send(JSON.stringify({ message: "created" }));
-        }
-        else{
+          ws.send(refreshData);
+        } else {
           ws.send(JSON.stringify({ message: "nameExist" }));
         }
         break;
       case "joinRoom":
-        var requestedRoom = rooms.filter(room => room.roomName == data.roomName)[0]
+        var requestedRoom = rooms.filter(
+          (room) => room.roomName == data.roomName
+        )[0];
 
-        if(requestedRoom){
-          if(requestedRoom.clients.filter(client => client.clientName == data.clientName).length == 0)
-          {
-
-
-            requestedRoom.addClient(new Client(data.clientName, ws))
-            let test = JSON.stringify({message: "refreshClients", roomClients: requestedRoom.clients})
+        if (requestedRoom) {
+          if (
+            requestedRoom.clients.filter(
+              (client) => client.clientName == data.clientName
+            ).length == 0
+          ) {
+            requestedRoom.addClient(new Client(data.clientName, ws));
+            let refreshData = JSON.stringify({
+              message: "refreshClients",
+              roomClients: requestedRoom.clients,
+            });
             ws.send(JSON.stringify({ message: "joined" }));
             wss.clients.forEach(function each(client) {
               if (client.readyState === ws.OPEN) {
-                
-                client.send(test, { binary: isBinary });
+                client.send(refreshData, { binary: isBinary });
               }
             });
-          }
-          else{
+          } else {
             ws.send(JSON.stringify({ message: "nickNameExist" }));
           }
-        }
-        else{
+        } else {
           ws.send(JSON.stringify({ message: "roomNotExist" }));
         }
         break;
-        // coll_rooms.findOne({ _id: data.roomName }, function (err, result) {
-        //   if (!err && result != null) {
-        //     console.log(result);
-        //     //checking if in room is user with this nickname and insert it
-        //     if (
-        //       !result.clients.some((client) => client.clientId == data.clientId)
-        //     ) {
-        //       var allClients = [
-        //         ...result.clients,
-        //         { clientId: data.clientId, client: ws },
-        //       ];
+      case "setReady":
+        var requestedRoom = rooms.filter(
+          (room) => room.roomName == data.roomName
+        )[0];
 
-        //       var updatedClients = {
-        //         $set: {
-        //           clients: allClients,
-        //         },
-        //       };
-        //       coll_rooms.updateOne(
-        //         { _id: result._id },
-        //         updatedClients,
-        //         function (err, resultUpdated) {
-        //           if (!err) {
-        //             ws.send(JSON.stringify({ message: "joined" }));
-        //             allClients.forEach((client) => {
-        //               if (client.client.readyState === ws.OPEN) {
-        //                 // client.client.send(
-        //                 //   JSON.stringify({
-        //                 //     message: "updateUsersQueue",
-        //                 //     users: resultUpdated.clients,
-        //                 //   }),
-        //                 //   {
-        //                 //     binary: isBinary,
-        //                 //   }
-        //                 // );
-        //                 client.client.send(JSON.stringify({ message: "ej" }));
-        //               }
-        //             });
-        //           }
-        //         }
-        //       );
-        //     } else {
-        //       ws.send(JSON.stringify({ message: "nickNameExist" }));
-        //     }
-        //   } else {
-        //     ws.send(JSON.stringify({ message: "roomNotExist" }));
-        //   }
-        // });
+        var requestedUser = requestedRoom.clients.filter(
+          (client) => client.clientName == data.clientName
+        )[0];
+
+        if (requestedUser) {
+          requestedUser.setReady(requestedUser.ready ? false : true);
+
+          let refreshData = JSON.stringify({
+            message: "refreshClients",
+            roomClients: requestedRoom.clients,
+          });
+
+          ws.send(JSON.stringify({ message: "joined" }));
+          wss.clients.forEach(function each(client) {
+            if (client.readyState === ws.OPEN) {
+              client.send(refreshData, { binary: isBinary });
+            }
+          });
+        }
+        break;
+      // coll_rooms.findOne({ _id: data.roomName }, function (err, result) {
+      //   if (!err && result != null) {
+      //     console.log(result);
+      //     //checking if in room is user with this nickname and insert it
+      //     if (
+      //       !result.clients.some((client) => client.clientId == data.clientId)
+      //     ) {
+      //       var allClients = [
+      //         ...result.clients,
+      //         { clientId: data.clientId, client: ws },
+      //       ];
+
+      //       var updatedClients = {
+      //         $set: {
+      //           clients: allClients,
+      //         },
+      //       };
+      //       coll_rooms.updateOne(
+      //         { _id: result._id },
+      //         updatedClients,
+      //         function (err, resultUpdated) {
+      //           if (!err) {
+      //             ws.send(JSON.stringify({ message: "joined" }));
+      //             allClients.forEach((client) => {
+      //               if (client.client.readyState === ws.OPEN) {
+      //                 // client.client.send(
+      //                 //   JSON.stringify({
+      //                 //     message: "updateUsersQueue",
+      //                 //     users: resultUpdated.clients,
+      //                 //   }),
+      //                 //   {
+      //                 //     binary: isBinary,
+      //                 //   }
+      //                 // );
+      //                 client.client.send(JSON.stringify({ message: "ej" }));
+      //               }
+      //             });
+      //           }
+      //         }
+      //       );
+      //     } else {
+      //       ws.send(JSON.stringify({ message: "nickNameExist" }));
+      //     }
+      //   } else {
+      //     ws.send(JSON.stringify({ message: "roomNotExist" }));
+      //   }
+      // });
     }
 
-    wss.clients.forEach(function each(client) {
-      if (client.readyState === ws.OPEN) {
-        client.send(JSON.stringify(data), { binary: isBinary });
-      }
-    });
+    // wss.clients.forEach(function each(client) {
+    //   if (client.readyState === ws.OPEN) {
+    //     client.send(JSON.stringify(data), { binary: isBinary });
+    //   }
+    // });
   });
 });
-
-
-
 
 // var _db;
 // var coll_rooms;

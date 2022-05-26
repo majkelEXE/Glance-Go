@@ -19,6 +19,8 @@ body {
   font-family: "Montserrat", sans-serif;
   font-family: "Mukta", sans-serif;
   font-family: "Poppins", sans-serif;
+  background-image: url("./../assets/background.png");
+  background-size: cover;
 }
 
 #joinRoomMenu {
@@ -26,114 +28,165 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: var(--bg-color);
-  color: var(--txt-on-bg-color);
-  padding: 20px 200px;
-
-  /*  */
-  /* display: none; */
+  background-color: var(--main-color);
+  color: var(--font-color);
+  padding: 50px 100px;
+  border-radius: 25px;
+  box-shadow: 0px 10px 0px 0px var(--dark-main-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .gameTitleMenu {
   text-align: center;
-  margin-bottom: 20px;
-  font-size: calc(var(--main-font-size) * 1.4);
+  margin-bottom: 50px;
+  font-size: calc(var(--main-font-size) * 3);
 }
 
 #joinRoomMenu .settingsLabel {
   display: flex;
-  width: 300px;
+  width: 100%;
   justify-content: space-between;
-  margin-bottom: 5px;
+  align-items: center;
+  margin: 5px;
+}
+
+#joinRoomMenu .settingsLabel input {
+  border-radius: 10px;
+  padding: 10px;
 }
 
 #joinRoomMenu .settingsDiv {
   display: flex;
-  width: 300px;
-  justify-content: center;
+  width: 100%;
+  justify-content: space-evenly;
 }
 
-#joinRoomMenu .settingsDiv button,
-#mainQueueSection button {
-  margin: 15px 10px 0;
+#joinRoomMenu .settingsDiv button {
+  margin-top: 25px;
   padding: 10px;
-  width: 130px;
   cursor: pointer;
-  background-color: var(--bg-color);
-  color: var(--txt-on-bg-color);
-  border: 1px solid var(--txt-on-bg-color);
-  transition: all 0.5s;
+  background-color: var(--button-color);
+  color: var(--main-color);
+  border-radius: 10px;
+  border: none;
+  font-weight: bold;
+  box-shadow: 0px 6px 0px 0px var(--dark-button-color);
+  transform: translateY(-2px);
+  transition: 0.05s ease-in;
 }
 
-#joinRoomMenu .settingsDiv button:hover,
-#mainQueueSection button:hover {
-  color: var(--bg-color);
-  background-color: var(--txt-on-bg-color);
+#joinRoomMenu .settingsDiv button:hover {
+  transition: 0.05s ease-out;
+  transform: translateY(0px);
+  box-shadow: 0px 4px 0px 0px var(--dark-button-color);
 }
 
 #manageRoomMenu {
   display: none;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  background-color: var(--main-color);
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  color: var(--font-color);
+  padding: 100px;
 
   /* display: block; */
-}
-
-#titleGameContainer {
-  margin: 0 auto;
-  padding: 30px;
-  /* width: 700px; */
-  background-color: var(--bg-color);
-  color: var(--txt-on-bg-color);
-  margin-bottom: 20px;
-}
-
-#titleGameContainer .gameTitleMenu {
-  margin: 0;
 }
 
 #queueInterface {
   display: flex;
   justify-content: center;
+  align-items: center;
+  width: 100%;
 }
-
-#queueInterface div {
-  margin: 0 10px;
-}
-
 #usersInRoomSection,
 #choosingCharacterSection {
-  width: 400px;
-  height: 500px;
-  background-color: var(--bg-color);
-  color: var(--txt-on-bg-color);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  height: calc(100vh - 200px - var(--main-font-size) * 3 - 50px);
+  border-radius: 25px;
+  background-color: var(--dark-main-color);
 }
 
 #usersInRoomSection {
-  padding: 20px;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 #mainQueueSection {
-  padding: 20px;
-  width: 430px;
-  height: 80px;
-  display: flex;
-  justify-content: center;
-  background-color: var(--bg-color);
-  color: var(--txt-on-bg-color);
+  margin: 100px;
 }
 
 #startRoom {
-  margin: 0 !important;
+  padding: 25px;
+  cursor: pointer;
+  background-color: var(--button-color);
+  color: var(--main-color);
+  border-radius: 25px;
+  border: none;
+  font-weight: bold;
+  box-shadow: 0px 15px 0px 0px var(--dark-button-color);
+  transform: translateY(-5px);
+  transition: 0.05s ease-in;
+  font-size: calc(var(--main-font-size) * 3);
+}
+
+#startRoom:hover {
+  transition: 0.05s ease-out;
+  transform: translateY(0px);
+  box-shadow: 0px 10px 0px 0px var(--dark-button-color);
 }
 
 #choosingCharacterSection {
-  padding: 20px;
+  padding: 50px;
 }
 
 .subtitleQueueInterface {
   text-align: center;
-  font-size: calc(var(--main-font-size) * 1.3);
+  font-size: calc(var(--main-font-size) * 2);
+}
+
+#usersInRoomList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px 0;
+}
+
+#usersInRoomList p {
+  font-size: var(--main-font-size);
+  border: 2px solid var(--font-color);
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+.readyPlayer,
+.notReadyPlayer {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-left: 10px;
+}
+
+.readyPlayer {
+  background-color: greenyellow;
+}
+
+.notReadyPlayer {
+  background-color: red;
 }
