@@ -2,7 +2,7 @@ import { ui } from "./Main.js";
 
 class Net {
   constructor() {
-    this.socket = new WebSocket("ws://192.168.0.106:3000");
+    this.socket = new WebSocket("ws://localhost:3000");
 
     // Connection opened
     // this.socket.addEventListener("open", function (event) {
@@ -34,6 +34,9 @@ class Net {
         case "created":
         case "joined":
           ui.showQueue();
+          break;
+        case "refreshClients":
+          console.log(respond.roomClients)
           break;
       }
 
