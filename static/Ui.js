@@ -6,7 +6,7 @@ class Ui {
       var message = {
         type: "createRoom",
         roomName: document.getElementById("roomNameInput").value,
-        clientId: document.getElementById("nickInput").value,
+        clientName: document.getElementById("nickInput").value,
       };
       net.sendMessage(message);
     });
@@ -15,7 +15,7 @@ class Ui {
       var message = {
         type: "joinRoom",
         roomName: document.getElementById("roomNameInput").value,
-        clientId: document.getElementById("nickInput").value,
+        clientName: document.getElementById("nickInput").value,
       };
       net.sendMessage(message);
     });
