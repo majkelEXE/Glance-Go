@@ -63,7 +63,7 @@ class Net {
           ui.updateUserList(getPlayers());
           break;
         case "start":
-          ui.showGame();
+          ui.startGame();
           game.renderPlayers(respond.players);
           break;
         case "updatePlayer":
