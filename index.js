@@ -24,6 +24,10 @@ app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname + "/static/index.html"));
 });
 
+app.get("/test", function (req, res) {
+  res.sendFile(path.join(__dirname + "/static/test.html"));
+});
+
 const wss = new ws.WebSocketServer({ server });
 
 wss.on("connection", function connection(ws) {
@@ -41,16 +45,14 @@ wss.on("connection", function connection(ws) {
         ) {
           const roomCardSetter = new CardSetter();
           //let cardSet = roomCardSetter.renderCardSet();
-          var ownerClient = new Client(data.clientName, ws);
+          var ownerClient = new Client(data.clientName, ws, 0, 0, 0);
           var room = new Room(data.roomName, ownerClient);
           rooms.push(room);
 
-          let refreshData = JSON.stringify({
-            message: "refreshClients",
-            roomClients: room.clients,
-          });
+          let refreshedClients = room.getRefreshedClientsMessage();
+
           ws.send(JSON.stringify({ message: "created" }));
-          ws.send(refreshData);
+          ws.send(refreshedClients);
         } else {
           ws.send(JSON.stringify({ message: "nameExist" }));
         }
@@ -66,11 +68,16 @@ wss.on("connection", function connection(ws) {
               (client) => client.clientName == data.clientName
             ).length == 0
           ) {
-            requestedRoom.addClient(new Client(data.clientName, ws));
-            let refreshData = JSON.stringify({
-              message: "refreshClients",
-              roomClients: requestedRoom.clients,
-            });
+            requestedRoom.addClient(
+              new Client(
+                data.clientName,
+                ws,
+                50 * Math.sin(requestedRoom.clients.length),
+                0,
+                50 * Math.cos(requestedRoom.clients.length)
+              )
+            );
+            let refreshData = requestedRoom.getRefreshedClientsMessage();
             ws.send(JSON.stringify({ message: "joined" }));
             wss.clients.forEach(function each(client) {
               if (client.readyState === ws.OPEN) {
@@ -96,6 +103,32 @@ wss.on("connection", function connection(ws) {
         if (requestedUser) {
           requestedUser.setReady(requestedUser.ready ? false : true);
 
+
+          if (
+            requestedRoom.clients.filter((client) => client.ready == false)
+              .length == 0
+          ) {
+            let msg = JSON.stringify({
+              message: "start",
+              players: requestedRoom.clients,
+            });
+
+            wss.clients.forEach(function each(client) {
+              if (client.readyState === ws.OPEN) {
+                client.send(msg, { binary: isBinary });
+              }
+            });
+          } else {
+            let refreshData = requestedRoom.getRefreshedClientsMessage();
+
+           
+            wss.clients.forEach(function each(client) {
+              if (client.readyState === ws.OPEN) {
+                client.send(refreshData, { binary: isBinary });
+              }
+            });
+          }
+
           let refreshData = JSON.stringify({
             message: "refreshClients",
             roomClients: requestedRoom.clients,
@@ -107,74 +140,21 @@ wss.on("connection", function connection(ws) {
               client.send(refreshData, { binary: isBinary });
             }
           });
+
         }
         break;
-      // coll_rooms.findOne({ _id: data.roomName }, function (err, result) {
-      //   if (!err && result != null) {
-      //     console.log(result);
-      //     //checking if in room is user with this nickname and insert it
-      //     if (
-      //       !result.clients.some((client) => client.clientId == data.clientId)
-      //     ) {
-      //       var allClients = [
-      //         ...result.clients,
-      //         { clientId: data.clientId, client: ws },
-      //       ];
+      case "updatePlayer":
+        data = JSON.stringify({
+          message: "updatePlayer",
+          playerInfo: data.playerInfo,
+        });
 
-      //       var updatedClients = {
-      //         $set: {
-      //           clients: allClients,
-      //         },
-      //       };
-      //       coll_rooms.updateOne(
-      //         { _id: result._id },
-      //         updatedClients,
-      //         function (err, resultUpdated) {
-      //           if (!err) {
-      //             ws.send(JSON.stringify({ message: "joined" }));
-      //             allClients.forEach((client) => {
-      //               if (client.client.readyState === ws.OPEN) {
-      //                 // client.client.send(
-      //                 //   JSON.stringify({
-      //                 //     message: "updateUsersQueue",
-      //                 //     users: resultUpdated.clients,
-      //                 //   }),
-      //                 //   {
-      //                 //     binary: isBinary,
-      //                 //   }
-      //                 // );
-      //                 client.client.send(JSON.stringify({ message: "ej" }));
-      //               }
-      //             });
-      //           }
-      //         }
-      //       );
-      //     } else {
-      //       ws.send(JSON.stringify({ message: "nickNameExist" }));
-      //     }
-      //   } else {
-      //     ws.send(JSON.stringify({ message: "roomNotExist" }));
-      //   }
-      // });
+        wss.clients.forEach(function each(client) {
+          if (client !== ws && client.readyState === ws.OPEN) {
+            client.send(data, { binary: isBinary });
+          }
+        });
+        break;
     }
-
-    // wss.clients.forEach(function each(client) {
-    //   if (client.readyState === ws.OPEN) {
-    //     client.send(JSON.stringify(data), { binary: isBinary });
-    //   }
-    // });
   });
 });
-
-// var _db;
-// var coll_rooms;
-
-// mongoClient.connect("mongodb://localhost/GlanceAndGo", function (err, db) {
-//   if (err) console.log(err);
-//   else console.log("mongo podłączone!"); //tu można operować na utworzonej bazie danych db lub podstawić jej obiekt // pod zmienną widoczną na zewnątrz
-//   _db = db;
-//   db.createCollection("przyszleDane", function (err, coll) {
-//     console.log("kolekcja powstała, sprawdź efekt w konsoli klienta mongo");
-//     coll_rooms = coll;
-//   });
-// });

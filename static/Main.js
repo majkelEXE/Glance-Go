@@ -8,9 +8,12 @@ let net;
 let ui;
 
 window.onload = () => {
+
+  game = new Game();
   net = new Net();
   ui = new Ui();
   lobbyModel = new LobbyModel();
 };
+
 
 export { net, ui, lobbyModel, game };

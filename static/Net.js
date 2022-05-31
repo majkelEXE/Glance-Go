@@ -1,4 +1,4 @@
-import { ui } from "./Main.js";
+import { ui, game } from "./Main.js";
 
 class Net {
   constructor() {
@@ -61,6 +61,13 @@ class Net {
         case "refreshClients":
           setPlayers(respond.roomClients);
           ui.updateUserList(getPlayers());
+          break;
+        case "start":
+          ui.showGame();
+          game.renderPlayers(respond.players);
+          break;
+        case "updatePlayer":
+          game.updateOtherPlayer(respond.playerInfo);
           break;
       }
 

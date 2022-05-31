@@ -53,6 +53,12 @@ class Ui {
     lobbyModel.addConfigurationModel();
   };
 
+  showGame = () => {
+    document.getElementById("manageRoomMenu").style.display = "none";
+    document.querySelector("body").style.background = "none";
+    document.getElementById("root").style.display = "flex";
+  };
+
   updateUserList = (players) => {
     let usersListElement = "";
 
