@@ -36,8 +36,6 @@ class Net {
     this.socket.addEventListener("message", function (event) {
       let respond = JSON.parse(event.data);
 
-      //console.log(respond);
-
       switch (respond.message) {
         case "nameExist":
           alert(
@@ -58,11 +56,9 @@ class Net {
         case "joined":
           setPlayer(document.getElementById("nickInput").value);
           setRoom(document.getElementById("roomNameInput").value);
-          console.log(this);
           ui.showLobby();
           break;
         case "refreshClients":
-          console.log(respond.roomClients);
           setPlayers(respond.roomClients);
           ui.updateUserList(getPlayers());
           break;

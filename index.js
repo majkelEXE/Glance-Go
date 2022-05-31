@@ -103,6 +103,7 @@ wss.on("connection", function connection(ws) {
         if (requestedUser) {
           requestedUser.setReady(requestedUser.ready ? false : true);
 
+
           if (
             requestedRoom.clients.filter((client) => client.ready == false)
               .length == 0
@@ -120,13 +121,26 @@ wss.on("connection", function connection(ws) {
           } else {
             let refreshData = requestedRoom.getRefreshedClientsMessage();
 
-            ws.send(JSON.stringify({ message: "joined" }));
+           
             wss.clients.forEach(function each(client) {
               if (client.readyState === ws.OPEN) {
                 client.send(refreshData, { binary: isBinary });
               }
             });
           }
+
+          let refreshData = JSON.stringify({
+            message: "refreshClients",
+            roomClients: requestedRoom.clients,
+          });
+
+          //ws.send(JSON.stringify({ message: "joined" }));
+          wss.clients.forEach(function each(client) {
+            if (client.readyState === ws.OPEN) {
+              client.send(refreshData, { binary: isBinary });
+            }
+          });
+
         }
         break;
       case "updatePlayer":
