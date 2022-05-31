@@ -1,6 +1,6 @@
 import Game from "./Game.js";
 import LobbyModel from "./LobbyModel.js";
-import { game, lobbyModel, net } from "./Main.js";
+import { game, initializeGame, lobbyModel, net } from "./Main.js";
 
 class Ui {
   constructor() {
@@ -41,9 +41,9 @@ class Ui {
       lobbyModel.changeConfigurationModelColor(e.target.value);
     });
 
-    document.getElementById("test").addEventListener("click", () => {
-      this.startGame();
-    });
+    // document.getElementById("test").addEventListener("click", () => {
+    //   this.startGame();
+    // });
 
     lobbyModel.resize(
       document.getElementById("root").offsetWidth,
@@ -53,11 +53,11 @@ class Ui {
     lobbyModel.addConfigurationModel();
   };
 
-  showGame = () => {
-    document.getElementById("manageRoomMenu").style.display = "none";
-    document.querySelector("body").style.background = "none";
-    document.getElementById("root").style.display = "flex";
-  };
+  // showGame = () => {
+  //   document.getElementById("manageRoomMenu").style.display = "none";
+  //   document.querySelector("body").style.background = "none";
+  //   document.getElementById("root").style.display = "flex";
+  // };
 
   updateUserList = (players) => {
     let usersListElement = "";
@@ -73,11 +73,14 @@ class Ui {
 
   //FOR TEST PURPOUSE
   startGame = () => {
+    document.getElementById("manageRoomMenu").style.display = "none";
+    document.querySelector("body").style.background = "none";
+
     cancelAnimationFrame(lobbyModel.id);
     document.getElementsByTagName("body")[0].innerHTML =
       "<div id='root'></div>";
 
-    game = new Game();
+    initializeGame();
   };
 
   //TODO: There is a possibility to function for displaying alerts here, but i dont knwo if it has any sense.
