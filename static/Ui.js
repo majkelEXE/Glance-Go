@@ -1,4 +1,6 @@
-import { net } from "./Main.js";
+import Game from "./Game.js";
+import LobbyModel from "./LobbyModel.js";
+import { game, lobbyModel, net } from "./Main.js";
 
 class Ui {
   constructor() {
@@ -34,6 +36,21 @@ class Ui {
   showLobby = () => {
     document.getElementById("joinRoomMenu").style.display = "none";
     document.getElementById("manageRoomMenu").style.display = "flex";
+
+    document.getElementById("modelColor").addEventListener("input", (e) => {
+      lobbyModel.changeConfigurationModelColor(e.target.value);
+    });
+
+    document.getElementById("test").addEventListener("click", () => {
+      this.startGame();
+    });
+
+    lobbyModel.resize(
+      document.getElementById("root").offsetWidth,
+      document.getElementById("root").offsetHeight
+    );
+
+    lobbyModel.addConfigurationModel();
   };
 
   updateUserList = (players) => {
@@ -45,9 +62,16 @@ class Ui {
       }"></span></p>`;
     });
 
-    console.log(usersListElement, document.getElementById("usersInRoomList"));
-
     document.getElementById("usersInRoomList").innerHTML = usersListElement;
+  };
+
+  //FOR TEST PURPOUSE
+  startGame = () => {
+    cancelAnimationFrame(lobbyModel.id);
+    document.getElementsByTagName("body")[0].innerHTML =
+      "<div id='root'></div>";
+
+    game = new Game();
   };
 
   //TODO: There is a possibility to function for displaying alerts here, but i dont knwo if it has any sense.

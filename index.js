@@ -101,7 +101,7 @@ wss.on("connection", function connection(ws) {
             roomClients: requestedRoom.clients,
           });
 
-          ws.send(JSON.stringify({ message: "joined" }));
+          //ws.send(JSON.stringify({ message: "joined" }));
           wss.clients.forEach(function each(client) {
             if (client.readyState === ws.OPEN) {
               client.send(refreshData, { binary: isBinary });
