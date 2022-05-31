@@ -1,4 +1,4 @@
-import { ui } from "./Main.js";
+import { ui, game } from "./Main.js";
 
 class Net {
   constructor() {
@@ -36,7 +36,7 @@ class Net {
     this.socket.addEventListener("message", function (event) {
       let respond = JSON.parse(event.data);
 
-      console.log(respond);
+      //console.log(respond);
 
       switch (respond.message) {
         case "nameExist":
@@ -65,6 +65,13 @@ class Net {
           console.log(respond.roomClients);
           setPlayers(respond.roomClients);
           ui.updateUserList(getPlayers());
+          break;
+        case "start":
+          ui.showGame();
+          game.renderPlayers(respond.players);
+          break;
+        case "updatePlayer":
+          game.updateOtherPlayer(respond.playerInfo);
           break;
       }
 

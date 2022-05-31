@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--  -->
+    <link rel="stylesheet" href="css/01-variables.css" />
+    <link rel="stylesheet" href="css/02-global.css" />
+    <!--  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&family=Mukta:wght@300;400&family=Poppins:wght@200;300;400&display=swap"
+      rel="stylesheet"
+    />
+    <!--  -->
+    <title>Document</title>
+    <script src="./libs/three.js"></script>
+    <script type="module" src="./Main.js"></script>
+  </head>
+  <body>
+    <div id="joinRoomMenu">
+      <h1 class="gameTitleMenu">GLANCE&GO</h1>
+      <div class="settingsLabel">
+        <p>Nazwa pokoju</p>
+        <input type="text" id="roomNameInput" />
+      </div>
+      <div class="settingsLabel">
+        <p>Twój nick</p>
+        <input type="text" id="nickInput" />
+      </div>
+      <div class="settingsDiv">
+        <button id="createRoom">Utwórz pokój</button>
+        <button id="joinRoom">Dołącz do pokoju</button>
+      </div>
+    </div>
+    <div id="manageRoomMenu">
+      <div id="titleGameContainer">
+        <h1 class="gameTitleMenu">GLANCE&GO</h1>
+      </div>
+      <div id="queueInterface">
+        <div id="usersInRoomSection">
+          <div class="subtitleQueueInterface">Users</div>
+          <div id="usersInRoomList"></div>
+        </div>
+        <div id="mainQueueSection">
+          <button id="startRoom">Start</button>
+        </div>
+        <div id="choosingCharacterSection">
+          <div class="subtitleQueueInterface">Champion</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="root"></div>
+  </body>
+</html>

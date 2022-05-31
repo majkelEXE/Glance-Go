@@ -7,9 +7,9 @@ let net;
 let ui;
 
 window.onload = () => {
-  //game = new Game();
+  game = new Game();
   net = new Net();
   ui = new Ui();
 };
 
-export { net, ui };
+export { net, ui, game };

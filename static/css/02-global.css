@@ -190,3 +190,9 @@ body {
 .notReadyPlayer {
   background-color: red;
 }
+
+/* ROOT */
+
+#root {
+  display: none;
+}
