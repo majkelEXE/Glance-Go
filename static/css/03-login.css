@@ -1,0 +1,60 @@
+#joinRoomMenu {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--main-color);
+  color: var(--font-color);
+  padding: 50px 100px;
+  border-radius: 25px;
+  box-shadow: 0px 10px 0px 0px var(--dark-main-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.gameTitleMenu {
+  text-align: center;
+  margin-bottom: 50px;
+  font-size: calc(var(--main-font-size) * 3);
+}
+
+#joinRoomMenu .settingsLabel {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px;
+}
+
+#joinRoomMenu .settingsLabel input {
+  border-radius: 10px;
+  padding: 10px;
+}
+
+#joinRoomMenu .settingsDiv {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+}
+
+#joinRoomMenu .settingsDiv button {
+  margin-top: 25px;
+  padding: 10px;
+  cursor: pointer;
+  background-color: var(--button-color);
+  color: var(--main-color);
+  border-radius: 10px;
+  border: none;
+  font-weight: bold;
+  box-shadow: 0px 6px 0px 0px var(--dark-button-color);
+  transform: translateY(-2px);
+  transition: 0.05s ease-in;
+}
+
+#joinRoomMenu .settingsDiv button:hover {
+  transition: 0.05s ease-out;
+  transform: translateY(0px);
+  box-shadow: 0px 4px 0px 0px var(--dark-button-color);
+}

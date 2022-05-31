@@ -7,6 +7,8 @@
     <!--  -->
     <link rel="stylesheet" href="css/01-variables.css" />
     <link rel="stylesheet" href="css/02-global.css" />
+    <link rel="stylesheet" href="css/03-login.css" />
+    <link rel="stylesheet" href="css/04-room.css" />
     <!--  -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,6 +19,8 @@
     <!--  -->
     <title>Document</title>
     <script src="./libs/three.js"></script>
+    <script src="./libs/fflate.min.js"></script>
+    <script src="https://threejs.org/examples/js/loaders/FBXLoader.js"></script>
     <script type="module" src="./Main.js"></script>
   </head>
   <body>
@@ -49,10 +53,14 @@
         </div>
         <div id="choosingCharacterSection">
           <div class="subtitleQueueInterface">Champion</div>
+          <div class="characterColorConfiguration">
+            <p id="modelColorText">Pick your's player color</p>
+            <input type="color" id="modelColor" value="#ccae2b" />
+          </div>
+          <div id="root"></div>
         </div>
       </div>
+      <!-- <button id="test">TEST</button> -->
     </div>
-
-    <!-- <div id="root"></div> -->
   </body>
 </html>
