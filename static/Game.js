@@ -58,7 +58,7 @@ class Game {
 
   renderPlayers = (players) => {
     players.forEach((player) => {
-      const playerGame = new Player(player.clientName);
+      const playerGame = new Player(player.clientName, player.color);
       this.scene.add(playerGame);
       playerGame.position.set(player.startX, player.startY, player.startZ);
       if (player.clientName == net.player) {

@@ -27,6 +27,7 @@ class Ui {
         type: "setReady",
         roomName: net.room,
         clientName: net.player,
+        color: document.getElementById("modelColor").value,
       };
 
       net.sendMessage(message);
@@ -42,8 +43,18 @@ class Ui {
     });
 
     // document.getElementById("test").addEventListener("click", () => {
-    //   this.startGame();
+
     // });
+
+    window.addEventListener("beforeunload", function (e) {
+      var message = {
+        type: "leaveRoom",
+        roomName: net.room,
+        clientName: net.player,
+      };
+
+      net.sendMessage(message);
+    });
 
     lobbyModel.resize(
       document.getElementById("root").offsetWidth,

@@ -101,8 +101,10 @@ wss.on("connection", function connection(ws) {
         )[0];
 
         if (requestedUser) {
-          requestedUser.setReady(requestedUser.ready ? false : true);
+          requestedUser.setReady(!requestedUser.ready);
+          requestedUser.setColor(data.color);
 
+          console.log(requestedUser);
 
           if (
             requestedRoom.clients.filter((client) => client.ready == false)
@@ -121,7 +123,6 @@ wss.on("connection", function connection(ws) {
           } else {
             let refreshData = requestedRoom.getRefreshedClientsMessage();
 
-           
             wss.clients.forEach(function each(client) {
               if (client.readyState === ws.OPEN) {
                 client.send(refreshData, { binary: isBinary });
@@ -129,18 +130,14 @@ wss.on("connection", function connection(ws) {
             });
           }
 
-          let refreshData = JSON.stringify({
-            message: "refreshClients",
-            roomClients: requestedRoom.clients,
-          });
+          // let refreshData = requestedRoom.getRefreshedClientsMessage();
 
-          //ws.send(JSON.stringify({ message: "joined" }));
-          wss.clients.forEach(function each(client) {
-            if (client.readyState === ws.OPEN) {
-              client.send(refreshData, { binary: isBinary });
-            }
-          });
-
+          // //ws.send(JSON.stringify({ message: "joined" }));
+          // wss.clients.forEach(function each(client) {
+          //   if (client.readyState === ws.OPEN) {
+          //     client.send(refreshData, { binary: isBinary });
+          //   }
+          // });
         }
         break;
       case "updatePlayer":
@@ -154,6 +151,28 @@ wss.on("connection", function connection(ws) {
             client.send(data, { binary: isBinary });
           }
         });
+        break;
+      case "leaveRoom":
+        var requestedRoom = rooms.filter(
+          (room) => room.roomName == data.roomName
+        )[0];
+
+        requestedRoom.removeClient(data.clientName);
+
+        if (requestedRoom.clients.length > 0) {
+          let refreshData = requestedRoom.getRefreshedClientsMessage();
+
+          wss.clients.forEach(function each(client) {
+            if (client.readyState === ws.OPEN) {
+              client.send(refreshData, { binary: isBinary });
+            }
+          });
+        } else {
+          rooms = rooms.filter((room) => room.roomName != data.roomName);
+        }
+
+        console.log(rooms);
+
         break;
     }
   });

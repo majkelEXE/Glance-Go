@@ -19,7 +19,7 @@ class LobbyModel {
 
   addConfigurationModel = () => {
     //CONFIGURE LIGHT
-    const light = new THREE.AmbientLight(0xffffff, 1);
+    const light = new THREE.HemisphereLight(0xffffff, 0x757575, 1);
     this.scene.add(light);
 
     let self = this;
@@ -27,6 +27,8 @@ class LobbyModel {
 
     loader.load("./assets/models/source/player.fbx", function (object) {
       self.mixer = new THREE.AnimationMixer(object);
+
+      console.log(object);
 
       const action = self.mixer.clipAction(object.animations[1]);
       action.play();
@@ -39,7 +41,7 @@ class LobbyModel {
         if (child.isMesh) {
           child.material.shininess = 2;
           child.material.map = null;
-          child.material.color.setStyle("#ccae2b");
+          child.material.color.setStyle("#00ff00");
           child.material.needsUpdate = true;
           self.configurationModel = child;
         }
