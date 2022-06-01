@@ -19,7 +19,7 @@ class LobbyModel {
 
   addConfigurationModel = () => {
     //CONFIGURE LIGHT
-    const light = new THREE.AmbientLight(0xffffff, 1);
+    const light = new THREE.HemisphereLight(0xffffff, 0x757575, 1);
     this.scene.add(light);
 
     let self = this;

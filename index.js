@@ -101,7 +101,7 @@ wss.on("connection", function connection(ws) {
         )[0];
 
         if (requestedUser) {
-          requestedUser.setReady(requestedUser.ready ? false : true);
+          requestedUser.setReady(!requestedUser.ready);
 
 
           if (
@@ -129,17 +129,14 @@ wss.on("connection", function connection(ws) {
             });
           }
 
-          let refreshData = JSON.stringify({
-            message: "refreshClients",
-            roomClients: requestedRoom.clients,
-          });
+          // let refreshData = requestedRoom.getRefreshedClientsMessage();
 
-          //ws.send(JSON.stringify({ message: "joined" }));
-          wss.clients.forEach(function each(client) {
-            if (client.readyState === ws.OPEN) {
-              client.send(refreshData, { binary: isBinary });
-            }
-          });
+          // //ws.send(JSON.stringify({ message: "joined" }));
+          // wss.clients.forEach(function each(client) {
+          //   if (client.readyState === ws.OPEN) {
+          //     client.send(refreshData, { binary: isBinary });
+          //   }
+          // });
 
         }
         break;
@@ -155,6 +152,31 @@ wss.on("connection", function connection(ws) {
           }
         });
         break;
+        case "leaveRoom":
+          var requestedRoom = rooms.filter(
+            (room) => room.roomName == data.roomName
+          )[0];
+  
+          requestedRoom.removeClient(data.clientName)
+
+          if(requestedRoom.clients.length > 0) {
+            let refreshData = requestedRoom.getRefreshedClientsMessage();
+
+            wss.clients.forEach(function each(client) {
+              if (client.readyState === ws.OPEN) {
+                client.send(refreshData, { binary: isBinary });
+              }
+            });
+          }
+          else {
+            rooms = rooms.filter(room => room.roomName != data.roomName)
+          }
+
+          console.log(rooms)
+
+
+
+          break;
     }
   });
 });

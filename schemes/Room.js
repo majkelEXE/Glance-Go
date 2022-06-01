@@ -9,6 +9,10 @@ class Room {
     this.clients.push(client);
   }
 
+  removeClient(name) {
+    this.clients = this.clients.filter(client => client.clientName != name)
+  }
+
   getRefreshedClientsMessage() {
     return JSON.stringify({
       message: "refreshClients",
