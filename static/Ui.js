@@ -27,6 +27,7 @@ class Ui {
         type: "setReady",
         roomName: net.room,
         clientName: net.player,
+        color: document.getElementById("modelColor").value,
       };
 
       net.sendMessage(message);
@@ -52,7 +53,7 @@ class Ui {
         clientName: net.player,
       };
 
-      net.sendMessage(message);                     
+      net.sendMessage(message);
     });
 
     lobbyModel.resize(

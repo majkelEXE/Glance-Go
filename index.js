@@ -102,7 +102,9 @@ wss.on("connection", function connection(ws) {
 
         if (requestedUser) {
           requestedUser.setReady(!requestedUser.ready);
+          requestedUser.setColor(data.color);
 
+          console.log(requestedUser);
 
           if (
             requestedRoom.clients.filter((client) => client.ready == false)
@@ -121,7 +123,6 @@ wss.on("connection", function connection(ws) {
           } else {
             let refreshData = requestedRoom.getRefreshedClientsMessage();
 
-           
             wss.clients.forEach(function each(client) {
               if (client.readyState === ws.OPEN) {
                 client.send(refreshData, { binary: isBinary });
@@ -137,7 +138,6 @@ wss.on("connection", function connection(ws) {
           //     client.send(refreshData, { binary: isBinary });
           //   }
           // });
-
         }
         break;
       case "updatePlayer":
@@ -152,31 +152,28 @@ wss.on("connection", function connection(ws) {
           }
         });
         break;
-        case "leaveRoom":
-          var requestedRoom = rooms.filter(
-            (room) => room.roomName == data.roomName
-          )[0];
-  
-          requestedRoom.removeClient(data.clientName)
+      case "leaveRoom":
+        var requestedRoom = rooms.filter(
+          (room) => room.roomName == data.roomName
+        )[0];
 
-          if(requestedRoom.clients.length > 0) {
-            let refreshData = requestedRoom.getRefreshedClientsMessage();
+        requestedRoom.removeClient(data.clientName);
 
-            wss.clients.forEach(function each(client) {
-              if (client.readyState === ws.OPEN) {
-                client.send(refreshData, { binary: isBinary });
-              }
-            });
-          }
-          else {
-            rooms = rooms.filter(room => room.roomName != data.roomName)
-          }
+        if (requestedRoom.clients.length > 0) {
+          let refreshData = requestedRoom.getRefreshedClientsMessage();
 
-          console.log(rooms)
+          wss.clients.forEach(function each(client) {
+            if (client.readyState === ws.OPEN) {
+              client.send(refreshData, { binary: isBinary });
+            }
+          });
+        } else {
+          rooms = rooms.filter((room) => room.roomName != data.roomName);
+        }
 
+        console.log(rooms);
 
-
-          break;
+        break;
     }
   });
 });
