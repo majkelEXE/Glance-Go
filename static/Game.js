@@ -44,6 +44,7 @@ class Game {
         var message = {
           type: "updatePlayer",
           playerInfo: {
+            requestedRoom: net.room,
             playerX: this.ownPlayer.position.x,
             playerY: this.ownPlayer.position.y,
             playerZ: this.ownPlayer.position.z,

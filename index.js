@@ -79,9 +79,10 @@ wss.on("connection", function connection(ws) {
             );
             let refreshData = requestedRoom.getRefreshedClientsMessage();
             ws.send(JSON.stringify({ message: "joined" }));
-            wss.clients.forEach(function each(client) {
-              if (client.readyState === ws.OPEN) {
-                client.send(refreshData, { binary: isBinary });
+
+            requestedRoom.clients.forEach((client) => {
+              if (client.wsClient.readyState === ws.OPEN) {
+                client.wsClient.send(refreshData, { binary: isBinary });
               }
             });
           } else {
@@ -115,42 +116,41 @@ wss.on("connection", function connection(ws) {
               players: requestedRoom.clients,
             });
 
-            wss.clients.forEach(function each(client) {
-              if (client.readyState === ws.OPEN) {
-                client.send(msg, { binary: isBinary });
+            //
+            requestedRoom.clients.forEach((client) => {
+              if (client.wsClient.readyState === ws.OPEN) {
+                client.wsClient.send(msg, { binary: isBinary });
               }
             });
           } else {
             let refreshData = requestedRoom.getRefreshedClientsMessage();
 
-            wss.clients.forEach(function each(client) {
-              if (client.readyState === ws.OPEN) {
-                client.send(refreshData, { binary: isBinary });
+            requestedRoom.clients.forEach((client) => {
+              if (client.wsClient.readyState === ws.OPEN) {
+                client.wsClient.send(refreshData, { binary: isBinary });
               }
             });
           }
-
-          // let refreshData = requestedRoom.getRefreshedClientsMessage();
-
-          // //ws.send(JSON.stringify({ message: "joined" }));
-          // wss.clients.forEach(function each(client) {
-          //   if (client.readyState === ws.OPEN) {
-          //     client.send(refreshData, { binary: isBinary });
-          //   }
-          // });
         }
         break;
       case "updatePlayer":
+        console.log(data.playerInfo);
+        var requestedRoom = rooms.filter((room) => {
+          return room.roomName == data.playerInfo.requestedRoom;
+        })[0];
+        console.log(requestedRoom);
+
         data = JSON.stringify({
           message: "updatePlayer",
           playerInfo: data.playerInfo,
         });
 
-        wss.clients.forEach(function each(client) {
-          if (client !== ws && client.readyState === ws.OPEN) {
-            client.send(data, { binary: isBinary });
+        requestedRoom.clients.forEach((client) => {
+          if (client.wsClient.readyState === ws.OPEN) {
+            client.wsClient.send(data, { binary: isBinary });
           }
         });
+
         break;
       case "leaveRoom":
         var requestedRoom = rooms.filter(
@@ -162,9 +162,9 @@ wss.on("connection", function connection(ws) {
         if (requestedRoom.clients.length > 0) {
           let refreshData = requestedRoom.getRefreshedClientsMessage();
 
-          wss.clients.forEach(function each(client) {
-            if (client.readyState === ws.OPEN) {
-              client.send(refreshData, { binary: isBinary });
+          requestedRoom.clients.forEach((client) => {
+            if (client.wsClient.readyState === ws.OPEN) {
+              client.wsClient.send(refreshData, { binary: isBinary });
             }
           });
         } else {

@@ -70,10 +70,6 @@ class Net {
           game.updateOtherPlayer(respond.playerInfo);
           break;
       }
-
-      //case on createdRoom
-
-      //case on joinedToRoom
     });
   };
 
