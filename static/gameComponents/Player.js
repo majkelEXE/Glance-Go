@@ -10,22 +10,44 @@
 
 // const pionek = new Player();
 
-
 export default class Player {
   constructor(name, color, model) {
     this.name = name;
     this.color = color;
     this.model = model;
-    
+
     this.model.scale.set(0.5, 0.5, 0.5);
 
     this.model.traverse(function (child) {
-        if (child.isMesh) {
-          child.material.shininess = 2;
-          child.material.map = null;
-          child.material.color.setStyle(color);
-          child.material.needsUpdate = true;
-        }
-      });
+      if (child.isMesh) {
+        child.material.shininess = 2;
+        child.material.map = null;
+        child.material.color.setStyle(color);
+        child.material.needsUpdate = true;
+      }
+    });
+
+    this.mixer = new THREE.AnimationMixer(this.model);
+    this.animating = false;
+
+    this.playRestingAnimation();
   }
+
+  playRunningAnimation = () => {
+    if (!this.animating) {
+      console.log("PLAYING RUNNING");
+      this.mixer.stopAllAction();
+      this.mixer.clipAction(this.model.animations[0]).play();
+
+      this.animating = true;
+    }
+  };
+
+  playRestingAnimation = () => {
+    console.log("STOPPING RUNNING");
+    this.mixer.stopAllAction();
+    this.mixer.clipAction(this.model.animations[2]).play();
+
+    this.animating = false;
+  };
 }

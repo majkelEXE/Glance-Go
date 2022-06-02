@@ -1,5 +1,6 @@
 import Player from "./gameComponents/Player.js";
 import RoomModel from "./gameComponents/RoomModel.js";
+import Symbol from "./gameComponents/Symbol.js";
 import { net } from "./Main.js";
 
 class Game {
@@ -11,7 +12,7 @@ class Game {
       0.1,
       10000
     );
-    this.camera.position.set(0, 2000, 0);
+    this.camera.position.set(0, 1000, 750);
     this.camera.lookAt(this.scene.position);
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setClearColor(0x000000);
@@ -27,7 +28,9 @@ class Game {
     this.ownPlayer = undefined;
     this.players = [];
 
-    this.scene.add(new RoomModel)
+    this.scene.add(new RoomModel());
+
+    this.clock = new THREE.Clock();
 
     this.render(); // wywołanie metody render
     this.moveUpDown = 0; // 0 - none, 1 - up, -1 - down
@@ -40,27 +43,50 @@ class Game {
     this.camera.updateProjectionMatrix();
     this.renderer.render(this.scene, this.camera);
 
+    let delta = this.clock.getDelta();
+
+    this.players.forEach((player) => {
+      if (player.mixer) {
+        player.mixer.update(delta);
+      }
+    });
 
     if (this.ownPlayer != undefined) {
+      if (this.ownPlayer.mixer) {
+        this.ownPlayer.mixer.update(delta);
+      }
+
       this.ownPlayer.model.position.x += this.moveUpDown * 1;
       this.ownPlayer.model.position.z += this.moveLeftRight * 1;
+
       if (this.moveUpDown != 0 || this.moveLeftRight != 0) {
         var message = {
           type: "updatePlayer",
           playerInfo: {
+            playerName: net.player,
             requestedRoom: net.room,
-            playerX: this.ownPlayer.position.x,
-            playerY: this.ownPlayer.position.y,
-            playerZ: this.ownPlayer.position.z,
+            playerX: this.ownPlayer.model.position.x,
+            playerY: this.ownPlayer.model.position.y,
+            playerZ: this.ownPlayer.model.position.z,
           },
         };
 
         net.sendMessage(message);
+      } else {
+        if (this.ownPlayer.animating) {
+          this.ownPlayer.playRestingAnimation();
+        }
       }
     }
   };
 
   renderPlayers = (players) => {
+    //TESTS
+
+    const symbol = new Symbol("apricot");
+    this.scene.add(symbol);
+
+    //******************
 
     //CONFIGURE LIGHT
     const light = new THREE.HemisphereLight(0xffffff, 0x757575, 1);
@@ -71,12 +97,11 @@ class Game {
       const loader = new THREE.FBXLoader();
 
       loader.load("./assets/models/source/player.fbx", function (object) {
-  
         console.log(object);
-  
+
         // object.scale.set(0.5, 0.5, 0.5);
         // object.position.y = -50;
-  
+
         // object.traverse(function (child) {
         //   // dla kazdego mesha w modelu
         //   if (child.isMesh) {
@@ -87,13 +112,16 @@ class Game {
         //     self.configurationModel = child;
         //   }
         // });
-  
+
         //ADDING MODEL
 
-
-        let playerGame = new Player(player.clientName, player.color,object);
+        let playerGame = new Player(player.clientName, player.color, object);
         self.scene.add(playerGame.model);
-        playerGame.model.position.set(player.startX, player.startY, player.startZ);
+        playerGame.model.position.set(
+          player.startX,
+          player.startY,
+          player.startZ
+        );
         if (player.clientName == net.player) {
           self.ownPlayer = playerGame;
         } else {
@@ -104,14 +132,14 @@ class Game {
         //self.camera.lookAt(self.scene.position);
       });
 
-
       // const playerGame = new Player(player.clientName, player.color);
-
     });
   };
 
   playerController = () => {
     window.addEventListener("keydown", (e) => {
+      this.ownPlayer.playRunningAnimation();
+
       switch (e.which) {
         //arrow up
         case 38:
@@ -155,16 +183,11 @@ class Game {
       return player.name == playerData.playerName;
     })[0];
 
-    console.log(
-      test.filter((player) => {
-        return player.name == playerData.playerName;
-      })
-    );
-
     if (playerToUpdate != undefined) {
       (playerToUpdate.model.position.x = playerData.playerX),
         (playerToUpdate.model.position.y = playerData.playerY),
         (playerToUpdate.model.position.z = playerData.playerZ);
+      playerToUpdate.playRunningAnimation();
     }
   };
 }
