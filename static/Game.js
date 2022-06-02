@@ -1,4 +1,5 @@
 import Player from "./gameComponents/Player.js";
+import RoomModel from "./gameComponents/RoomModel.js";
 import { net } from "./Main.js";
 
 class Game {
@@ -10,10 +11,10 @@ class Game {
       0.1,
       10000
     );
-    this.camera.position.set(600, 300, 600);
+    this.camera.position.set(0, 2000, 0);
     this.camera.lookAt(this.scene.position);
     this.renderer = new THREE.WebGLRenderer();
-    this.renderer.setClearColor(0xffffff);
+    this.renderer.setClearColor(0x000000);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     document.getElementById("root").append(this.renderer.domElement);
 
@@ -26,6 +27,8 @@ class Game {
     this.ownPlayer = undefined;
     this.players = [];
 
+    this.scene.add(new RoomModel)
+
     this.render(); // wywołanie metody render
     this.moveUpDown = 0; // 0 - none, 1 - up, -1 - down
     this.moveLeftRight = 0; // 0 - none, 1 - left, -1 - right
@@ -37,16 +40,17 @@ class Game {
     this.camera.updateProjectionMatrix();
     this.renderer.render(this.scene, this.camera);
 
+
     if (this.ownPlayer != undefined) {
-      this.ownPlayer.position.x += this.moveUpDown * 1;
-      this.ownPlayer.position.z += this.moveLeftRight * 1;
+      this.ownPlayer.model.position.x += this.moveUpDown * 1;
+      this.ownPlayer.model.position.z += this.moveLeftRight * 1;
       if (this.moveUpDown != 0 || this.moveLeftRight != 0) {
         var message = {
           type: "updatePlayer",
           playerInfo: {
-            playerX: this.ownPlayer.position.x,
-            playerY: this.ownPlayer.position.y,
-            playerZ: this.ownPlayer.position.z,
+            playerX: this.ownPlayer.model.position.x,
+            playerY: this.ownPlayer.model.position.y,
+            playerZ: this.ownPlayer.model.position.z,
             playerName: net.player,
           },
         };
@@ -57,15 +61,52 @@ class Game {
   };
 
   renderPlayers = (players) => {
+
+    //CONFIGURE LIGHT
+    const light = new THREE.HemisphereLight(0xffffff, 0x757575, 1);
+    this.scene.add(light);
+
     players.forEach((player) => {
-      const playerGame = new Player(player.clientName, player.color);
-      this.scene.add(playerGame);
-      playerGame.position.set(player.startX, player.startY, player.startZ);
-      if (player.clientName == net.player) {
-        this.ownPlayer = playerGame;
-      } else {
-        this.players.push(playerGame);
-      }
+      let self = this;
+      const loader = new THREE.FBXLoader();
+
+      loader.load("./assets/models/source/player.fbx", function (object) {
+  
+        console.log(object);
+  
+        // object.scale.set(0.5, 0.5, 0.5);
+        // object.position.y = -50;
+  
+        // object.traverse(function (child) {
+        //   // dla kazdego mesha w modelu
+        //   if (child.isMesh) {
+        //     child.material.shininess = 2;
+        //     child.material.map = null;
+        //     child.material.color.setStyle("#00ff00");
+        //     child.material.needsUpdate = true;
+        //     self.configurationModel = child;
+        //   }
+        // });
+  
+        //ADDING MODEL
+
+
+        let playerGame = new Player(player.clientName, player.color,object);
+        self.scene.add(playerGame.model);
+        playerGame.model.position.set(player.startX, player.startY, player.startZ);
+        if (player.clientName == net.player) {
+          self.ownPlayer = playerGame;
+        } else {
+          self.players.push(playerGame);
+        }
+
+        //self.camera.position.set(0, 0, 180);
+        //self.camera.lookAt(self.scene.position);
+      });
+
+
+      // const playerGame = new Player(player.clientName, player.color);
+
     });
   };
 
@@ -121,9 +162,9 @@ class Game {
     );
 
     if (playerToUpdate != undefined) {
-      (playerToUpdate.position.x = playerData.playerX),
-        (playerToUpdate.position.y = playerData.playerY),
-        (playerToUpdate.position.z = playerData.playerZ);
+      (playerToUpdate.model.position.x = playerData.playerX),
+        (playerToUpdate.model.position.y = playerData.playerY),
+        (playerToUpdate.model.position.z = playerData.playerZ);
     }
   };
 }
