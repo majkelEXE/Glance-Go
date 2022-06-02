@@ -48,10 +48,10 @@ class Game {
         var message = {
           type: "updatePlayer",
           playerInfo: {
-            playerX: this.ownPlayer.model.position.x,
-            playerY: this.ownPlayer.model.position.y,
-            playerZ: this.ownPlayer.model.position.z,
-            playerName: net.player,
+            requestedRoom: net.room,
+            playerX: this.ownPlayer.position.x,
+            playerY: this.ownPlayer.position.y,
+            playerZ: this.ownPlayer.position.z,
           },
         };
 
