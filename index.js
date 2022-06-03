@@ -34,7 +34,7 @@ wss.on("connection", function connection(ws) {
   ws.send(JSON.stringify({ message: "connected" }));
 
   ws.on("message", function message(data, isBinary) {
-    console.log("received: %s", data);
+    //console.log("received: %s", data);
 
     data = JSON.parse(data);
 
@@ -68,15 +68,7 @@ wss.on("connection", function connection(ws) {
               (client) => client.clientName == data.clientName
             ).length == 0
           ) {
-            requestedRoom.addClient(
-              new Client(
-                data.clientName,
-                ws,
-                50 * Math.sin(requestedRoom.clients.length),
-                0,
-                50 * Math.cos(requestedRoom.clients.length)
-              )
-            );
+            requestedRoom.addClient(new Client(data.clientName, ws, 0, 0, 0));
             let refreshData = requestedRoom.getRefreshedClientsMessage();
             ws.send(JSON.stringify({ message: "joined" }));
 
@@ -134,11 +126,11 @@ wss.on("connection", function connection(ws) {
         }
         break;
       case "updatePlayer":
-        console.log(data.playerInfo);
+        // console.log(data.playerInfo);
         var requestedRoom = rooms.filter((room) => {
           return room.roomName == data.playerInfo.requestedRoom;
         })[0];
-        console.log(requestedRoom);
+        // console.log(requestedRoom);
 
         data = JSON.stringify({
           message: "updatePlayer",
@@ -146,7 +138,10 @@ wss.on("connection", function connection(ws) {
         });
 
         requestedRoom.clients.forEach((client) => {
-          if (client.wsClient.readyState === ws.OPEN) {
+          if (
+            client.wsClient.readyState === ws.OPEN &&
+            client.wsClient !== ws
+          ) {
             client.wsClient.send(data, { binary: isBinary });
           }
         });
@@ -171,7 +166,7 @@ wss.on("connection", function connection(ws) {
           rooms = rooms.filter((room) => room.roomName != data.roomName);
         }
 
-        console.log(rooms);
+        //console.log(rooms);
 
         break;
     }
