@@ -28,26 +28,30 @@ export default class Player {
     });
 
     this.mixer = new THREE.AnimationMixer(this.model);
-    this.animating = false;
+    this.running = true;
+
+    console.log(this);
 
     this.playRestingAnimation();
   }
 
   playRunningAnimation = () => {
-    if (!this.animating) {
+    if (!this.running) {
       console.log("PLAYING RUNNING");
       this.mixer.stopAllAction();
       this.mixer.clipAction(this.model.animations[0]).play();
 
-      this.animating = true;
+      this.running = true;
     }
   };
 
   playRestingAnimation = () => {
-    console.log("STOPPING RUNNING");
-    this.mixer.stopAllAction();
-    this.mixer.clipAction(this.model.animations[2]).play();
+    if (this.running) {
+      console.log("STOPPING RUNNING");
+      this.mixer.stopAllAction();
+      this.mixer.clipAction(this.model.animations[2]).play();
 
-    this.animating = false;
+      this.running = false;
+    }
   };
 }
