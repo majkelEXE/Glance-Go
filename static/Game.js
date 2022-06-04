@@ -57,6 +57,7 @@ class Game {
     this.velocity = 0.0;
     this.speed = 0.0;
 
+    this.isSet = false;
     //
 
     // this.moveUpDown = 0; // 0 - none, 1 - up, -1 - down
@@ -105,7 +106,7 @@ class Game {
       this.ownPlayer.model.rotateY(this.rotateSpeed);
       //
 
-      this.a.lerp(this.ownPlayer.model.position, 2);
+      this.a.lerp(this.ownPlayer.model.position, 1);
       this.b.copy(this.goal.position);
 
       this.dir.copy(this.a).sub(this.b).normalize();
@@ -145,6 +146,12 @@ class Game {
           net.sendMessage(this.message);
         }
       }
+
+      // if (!this.isSet) {
+      //   this.isSet = true;
+      //   this.ownPlayer.model.position.z = -300;
+      //   this.goal.position.z = -300 - this.coronaSafetyDistance;
+      // }
     }
   };
 
@@ -191,6 +198,8 @@ class Game {
           player.startY,
           player.startZ
         );
+        playerGame.model.lookAt(self.scene.position);
+
         if (player.clientName == net.player) {
           self.ownPlayer = playerGame;
 
@@ -198,6 +207,20 @@ class Game {
           self.ownPlayer.model.add(self.follow);
           self.goal.add(self.camera);
           self.follow.position.z = -self.coronaSafetyDistance;
+
+          // self.ownPlayer.model.position.z = -300;
+
+          if (
+            player.startX == player.startZ &&
+            player.startX > 0 &&
+            player.startZ > 0
+          ) {
+            self.goal.position.z = self.coronaSafetyDistance;
+            self.goal.position.x = self.coronaSafetyDistance;
+          } else {
+            self.goal.position.z = player.startZ - self.coronaSafetyDistance;
+            self.goal.position.x = player.startX - self.coronaSafetyDistance;
+          }
 
           //
         } else {

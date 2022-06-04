@@ -1,12 +1,9 @@
 class Client {
-  constructor(clientName, wsClient, startX, startY, startZ) {
+  constructor(clientName, wsClient) {
     (this.clientName = clientName),
       (this.wsClient = wsClient),
       (this.ready = false);
     this.color = "#00ff00";
-    this.startX = startX;
-    this.startY = startY;
-    this.startZ = startZ;
   }
 
   setReady(value) {
@@ -15,6 +12,12 @@ class Client {
 
   setColor(color) {
     this.color = color;
+  }
+
+  setPosition(obj) {
+    this.startX = obj.startX;
+    this.startY = obj.startY;
+    this.startZ = obj.startZ;
   }
 }
 
