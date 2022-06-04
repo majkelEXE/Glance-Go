@@ -1,5 +1,6 @@
 import Player from "./gameComponents/Player.js";
 import RoomModel from "./gameComponents/RoomModel.js";
+import Symbol from "./gameComponents/Symbol.js";
 import { net } from "./Main.js";
 
 class Game {
@@ -28,6 +29,8 @@ class Game {
     this.players = [];
 
     this.scene.add(new RoomModel());
+
+    this.clock = new THREE.Clock();
 
     //
     this.goal = new THREE.Object3D();
@@ -65,8 +68,26 @@ class Game {
     this.camera.updateProjectionMatrix();
     this.renderer.render(this.scene, this.camera);
 
+    //console.log(this.ownPlayer);
+
+    let delta = this.clock.getDelta();
+
+    if (this.players.length > 0) {
+      this.players.forEach((player) => {
+        if (player.mixer) {
+          player.mixer.update(delta);
+        }
+      });
+    }
+
     if (this.ownPlayer != undefined) {
+      //COLLISION
+
       //console.log(this.ownPlayer.model.rotation);
+
+      if (this.ownPlayer.mixer) {
+        this.ownPlayer.mixer.update(delta);
+      }
 
       this.speed = 0.0;
       this.rotateSpeed = 0.0;
@@ -96,21 +117,46 @@ class Game {
       this.camera.lookAt(this.ownPlayer.model.position);
 
       if (this.keys.w || this.keys.s || this.keys.a || this.keys.d) {
+        this.ownPlayer.playRunningAnimation();
+
         this.message = {
           type: "updatePlayer",
           playerInfo: {
-            requestedRoom: net.room,
             playerName: net.player,
+            requestedRoom: net.room,
             playerPosition: this.ownPlayer.model.position,
             rotateSpeed: this.rotateSpeed,
+            animationState: "running",
           },
         };
         net.sendMessage(this.message);
+      } else {
+        if (this.ownPlayer.running) {
+          this.ownPlayer.playRestingAnimation();
+
+          this.message = {
+            type: "updatePlayer",
+            playerInfo: {
+              playerName: net.player,
+              requestedRoom: net.room,
+              animationState: "resting",
+            },
+          };
+          net.sendMessage(this.message);
+        }
       }
     }
   };
 
   renderPlayers = (players) => {
+    //TESTS
+
+    const symbol = new Symbol("apricot");
+    symbol.position.set(100, 0, 100);
+    this.scene.add(symbol);
+
+    //******************
+
     //CONFIGURE LIGHT
     const light = new THREE.HemisphereLight(0xffffff, 0x757575, 1);
     this.scene.add(light);
@@ -196,16 +242,26 @@ class Game {
     // );
 
     if (playerToUpdate != undefined) {
+      switch (playerData.animationState) {
+        case "running":
+          playerToUpdate.playRunningAnimation();
+
+          playerToUpdate.model.position.set(
+            playerData.playerPosition.x,
+            playerData.playerPosition.y,
+            playerData.playerPosition.z
+          );
+
+          playerToUpdate.model.rotateY(playerData.rotateSpeed);
+          break;
+        case "resting":
+          playerToUpdate.playRestingAnimation();
+          break;
+      }
+
       // (playerToUpdate.model.position.x = playerData.playerX),
       //   (playerToUpdate.model.position.y = playerData.playerY),
       //   (playerToUpdate.model.position.z = playerData.playerZ);
-      playerToUpdate.model.position.set(
-        playerData.playerPosition.x,
-        playerData.playerPosition.y,
-        playerData.playerPosition.z
-      );
-
-      playerToUpdate.model.rotateY(playerData.rotateSpeed);
     }
   };
 }
