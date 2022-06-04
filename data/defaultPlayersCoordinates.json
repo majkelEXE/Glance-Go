@@ -1,0 +1,84 @@
+[
+  {
+    "numberOfPlayers": "1",
+    "coordinates": [{ "startX": 0, "startY": 0, "startZ": 0 }]
+  },
+  {
+    "numberOfPlayers": "2",
+    "coordinates": [
+      { "startX": 0, "startY": 0, "startZ": -200 },
+      { "startX": 0, "startY": 0, "startZ": 200 }
+    ]
+  },
+  {
+    "numberOfPlayers": "3",
+    "coordinates": [
+      {
+        "startX": 173,
+        "startY": 0,
+        "startZ": -100
+      },
+      {
+        "startX": -173,
+        "startY": 0,
+        "startZ": -100
+      },
+      { "startX": 0, "startY": 0, "startZ": 200 }
+    ]
+  },
+  {
+    "numberOfPlayers": "4",
+    "coordinates": [
+      { "startX": 200, "startY": 0, "startZ": 0 },
+      { "startX": 0, "startY": 0, "startZ": -200 },
+      { "startX": -200, "startY": 0, "startZ": 0 },
+      { "startX": 0, "startY": 0, "startZ": 200 }
+    ]
+  },
+  {
+    "numberOfPlayers": "5",
+    "coordinates": [
+      { "startX": 190, "startY": 0, "startZ": 62 },
+      { "startX": 118, "startY": 0, "startZ": -162 },
+      { "startX": -118, "startY": 0, "startZ": -162 },
+      { "startX": -190, "startY": 0, "startZ": 62 },
+      { "startX": 0, "startY": 0, "startZ": 200 }
+    ]
+  },
+  {
+    "numberOfPlayers": "6",
+    "coordinates": [
+      { "startX": 173, "startY": 0, "startZ": 100 },
+      { "startX": 173, "startY": 0, "startZ": -100 },
+      { "startX": 0, "startY": 0, "startZ": -200 },
+      { "startX": -173, "startY": 0, "startZ": -100 },
+      { "startX": -173, "startY": 0, "startZ": 100 },
+      { "startX": 0, "startY": 0, "startZ": 200 }
+    ]
+  },
+  {
+    "numberOfPlayers": "7",
+    "coordinates": [
+      { "startX": 156, "startY": 0, "startZ": 125 },
+      { "startX": 195, "startY": 0, "startZ": -45 },
+      { "startX": 87, "startY": 0, "startZ": -180 },
+      { "startX": -87, "startY": 0, "startZ": -180 },
+      { "startX": -195, "startY": 0, "startZ": -45 },
+      { "startX": -156, "startY": 0, "startZ": 125 },
+      { "startX": 0, "startY": 0, "startZ": 200 }
+    ]
+  },
+  {
+    "numberOfPlayers": "8",
+    "coordinates": [
+      { "startX": 141, "startY": 0, "startZ": 141 },
+      { "startX": 200, "startY": 0, "startZ": 0 },
+      { "startX": 141, "startY": 0, "startZ": -141 },
+      { "startX": 0, "startY": 0, "startZ": -200 },
+      { "startX": -141, "startY": 0, "startZ": -141 },
+      { "startX": -200, "startY": 0, "startZ": 0 },
+      { "startX": -141, "startY": 0, "startZ": 141 },
+      { "startX": 0, "startY": 0, "startZ": 200 }
+    ]
+  }
+]

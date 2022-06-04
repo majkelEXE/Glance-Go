@@ -3,7 +3,8 @@ var express = require("express");
 var app = express();
 const PORT = 3000;
 var path = require("path");
-const mongoClient = require("mongodb").MongoClient;
+const MongoClient = require("mongodb").MongoClient;
+var url = "mongodb://localhost:27017/";
 
 var CardSetter = require("./scripts/CardSetter");
 var Card = require("./schemes/Card");
@@ -45,7 +46,7 @@ wss.on("connection", function connection(ws) {
         ) {
           const roomCardSetter = new CardSetter();
           //let cardSet = roomCardSetter.renderCardSet();
-          var ownerClient = new Client(data.clientName, ws, 0, 0, 0);
+          var ownerClient = new Client(data.clientName, ws);
           var room = new Room(data.roomName, ownerClient);
           rooms.push(room);
 
@@ -68,7 +69,7 @@ wss.on("connection", function connection(ws) {
               (client) => client.clientName == data.clientName
             ).length == 0
           ) {
-            requestedRoom.addClient(new Client(data.clientName, ws, 0, 0, 0));
+            requestedRoom.addClient(new Client(data.clientName, ws));
             let refreshData = requestedRoom.getRefreshedClientsMessage();
             ws.send(JSON.stringify({ message: "joined" }));
 
@@ -103,16 +104,39 @@ wss.on("connection", function connection(ws) {
             requestedRoom.clients.filter((client) => client.ready == false)
               .length == 0
           ) {
-            let msg = JSON.stringify({
-              message: "start",
-              players: requestedRoom.clients,
-            });
+            console.log(requestedRoom.clients.length.toString());
 
-            //
-            requestedRoom.clients.forEach((client) => {
-              if (client.wsClient.readyState === ws.OPEN) {
-                client.wsClient.send(msg, { binary: isBinary });
-              }
+            MongoClient.connect(url, function (err, db) {
+              if (err) throw err;
+              var dbo = db.db("GlanceAndGo");
+              dbo
+                .collection("defaultPlayersCoordinates")
+                .findOne(
+                  { numberOfPlayers: requestedRoom.clients.length.toString() },
+                  function (err, result) {
+                    if (err) throw err;
+                    console.log(result.coordinates);
+
+                    requestedRoom.clients.forEach((client, i) => {
+                      client.setPosition(result.coordinates[i]);
+                    });
+                    //
+
+                    let msg = JSON.stringify({
+                      message: "start",
+                      players: requestedRoom.clients,
+                    });
+
+                    requestedRoom.clients.forEach((client) => {
+                      if (client.wsClient.readyState === ws.OPEN) {
+                        client.wsClient.send(msg, { binary: isBinary });
+                      }
+                    });
+                    //
+
+                    db.close();
+                  }
+                );
             });
           } else {
             let refreshData = requestedRoom.getRefreshedClientsMessage();
