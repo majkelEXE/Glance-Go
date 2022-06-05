@@ -36,6 +36,8 @@ class Net {
     this.socket.addEventListener("message", function (event) {
       let respond = JSON.parse(event.data);
 
+      console.log(respond);
+
       switch (respond.message) {
         case "nameExist":
           alert(

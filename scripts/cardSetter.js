@@ -124,10 +124,7 @@ class CardSetter {
 
     // console.log(cards.map((card) => card.map((num) => this.symbols[num - 1])));
     cards = cards.map((card) => {
-      return {
-        state: "not used",
-        elements: card.map((num) => this.symbols[num - 1]),
-      };
+      return card.map((num) => this.symbols[num - 1]);
     });
     return cards;
   };

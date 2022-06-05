@@ -44,7 +44,6 @@ wss.on("connection", function connection(ws) {
         if (
           rooms.filter((room) => room.roomName == data.roomName).length == 0
         ) {
-          const roomCardSetter = new CardSetter();
           //let cardSet = roomCardSetter.renderCardSet();
           var ownerClient = new Client(data.clientName, ws);
           var room = new Room(data.roomName, ownerClient);
@@ -104,7 +103,12 @@ wss.on("connection", function connection(ws) {
             requestedRoom.clients.filter((client) => client.ready == false)
               .length == 0
           ) {
-            console.log(requestedRoom.clients.length.toString());
+            console.log(requestedRoom.clients.length.toString()); //karta z tym indeksem to mainCard
+
+            const roomCardSetter = new CardSetter();
+            requestedRoom.cards = roomCardSetter.renderCardSet();
+
+            console.log(requestedRoom);
 
             MongoClient.connect(url, function (err, db) {
               if (err) throw err;
@@ -115,23 +119,31 @@ wss.on("connection", function connection(ws) {
                   { numberOfPlayers: requestedRoom.clients.length.toString() },
                   function (err, result) {
                     if (err) throw err;
-                    console.log(result.coordinates);
 
                     requestedRoom.clients.forEach((client, i) => {
                       client.setPosition(result.coordinates[i]);
                     });
                     //
 
-                    let msg = JSON.stringify({
-                      message: "start",
-                      players: requestedRoom.clients,
-                    });
-
-                    requestedRoom.clients.forEach((client) => {
+                    requestedRoom.clients.forEach((client, i) => {
+                      let msg = JSON.stringify({
+                        message: "start",
+                        players: requestedRoom.clients,
+                        ownCard: requestedRoom.cards[i],
+                        mainCard:
+                          requestedRoom.cards[requestedRoom.clients.length],
+                      });
                       if (client.wsClient.readyState === ws.OPEN) {
                         client.wsClient.send(msg, { binary: isBinary });
                       }
                     });
+
+                    console.log(requestedRoom.cards.length);
+                    requestedRoom.cards.splice(
+                      0,
+                      requestedRoom.clients.length + 1
+                    );
+                    console.log(requestedRoom.cards.length);
                     //
 
                     db.close();
