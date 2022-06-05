@@ -1,0 +1,11 @@
+Model Information:
+* title:	Spring Dream Garden
+* source:	https://sketchfab.com/3d-models/spring-dream-garden-cde53a26240b4026a17f279cc98e062b
+* author:	Kelly Liang (https://sketchfab.com/kellyliang)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Spring Dream Garden" (https://sketchfab.com/3d-models/spring-dream-garden-cde53a26240b4026a17f279cc98e062b) by Kelly Liang (https://sketchfab.com/kellyliang) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

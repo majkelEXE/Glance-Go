@@ -26,6 +26,7 @@ class CardSetter {
       "ginger",
       "grapes",
       "gummy-bear",
+      "ice-cream-cone",
       "jackfruit",
       "kiwi",
       "lettuce",
@@ -60,7 +61,7 @@ class CardSetter {
     ];
   }
 
-  renderCardSet = () => {
+  renderCardSet() {
     //This has to be a prime + 1
     let numberOfSymbolsOnCard = 8;
 
@@ -130,7 +131,7 @@ class CardSetter {
       return card.map((num) => this.symbols[num - 1]);
     });
     return cards;
-  };
+  }
 }
 
 module.exports = CardSetter;

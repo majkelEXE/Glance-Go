@@ -74,9 +74,11 @@ class Ui {
     let usersListElement = "";
 
     players.forEach((player) => {
-      usersListElement += `<p>${player.clientName} <span class="${
+      usersListElement += `<p id="${
+        player.clientName == net.player && "ownPlayer"
+      }"> ${player.clientName} <span class="${
         player.ready ? "readyPlayer" : "notReadyPlayer"
-      }"></span></p>`;
+      } "></span></p>`;
     });
 
     document.getElementById("usersInRoomList").innerHTML = usersListElement;
