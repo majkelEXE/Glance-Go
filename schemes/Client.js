@@ -4,6 +4,7 @@ class Client {
       (this.wsClient = wsClient),
       (this.ready = false);
     this.color = "#00ff00";
+    this.points = 0;
   }
 
   setReady(value) {

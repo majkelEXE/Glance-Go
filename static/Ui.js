@@ -89,9 +89,23 @@ class Ui {
 
     cancelAnimationFrame(lobbyModel.id);
     document.getElementsByTagName("body")[0].innerHTML =
-      "<div id='root'></div>";
+      "<div id='gameMenu'><div id='ownCard'></div></div><div id='root'></div>";
 
     initializeGame();
+  };
+
+  showGameInterface = () => {
+    document.getElementById("gameMenu").style.display = "flex";
+  };
+
+  updateUserCardUI = (cards) => {
+    document.getElementById("ownCard").innerHTML = "";
+
+    cards.forEach((card) => {
+      document.getElementById(
+        "ownCard"
+      ).innerHTML += `<img src="../assets/icons/${card}.png" alt="${card}" width="40px" height="auto"/>`;
+    });
   };
 
   //TODO: There is a possibility to function for displaying alerts here, but i dont knwo if it has any sense.

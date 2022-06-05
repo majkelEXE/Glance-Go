@@ -2,7 +2,7 @@ import Player from "./gameComponents/Player.js";
 import RoomModel from "./gameComponents/RoomModel.js";
 import Symbol from "./gameComponents/Symbol.js";
 import { areSpheresCollided, isPointInsideSphere } from "./libs/collisions.js";
-import { net } from "./Main.js";
+import { net, ui } from "./Main.js";
 
 class Game {
   constructor() {
@@ -58,7 +58,10 @@ class Game {
     this.velocity = 0.0;
     this.speed = 0.0;
 
-    this.isSet = false;
+    this.ownCard = [];
+    this.mainCard = [];
+    this.symbols = [];
+    this.roundNumber;
     //
 
     // this.moveUpDown = 0; // 0 - none, 1 - up, -1 - down
@@ -85,18 +88,31 @@ class Game {
     if (this.ownPlayer != undefined) {
       //COLLISION
 
-      let symbol = this.scene.children.filter(
+      let symbols = this.scene.children.filter(
         (child) => child instanceof Symbol
-      )[0];
+      );
 
-      if (
-        isPointInsideSphere(
-          { ...this.ownPlayer.model.position },
-          { ...symbol.position, radius: symbol.radius }
-        )
-      ) {
-        console.log("COLLISON");
-      }
+      symbols.forEach((symbol) => {
+        if (
+          isPointInsideSphere(
+            { ...this.ownPlayer.model.position },
+            { ...symbol.position, radius: symbol.radius }
+          )
+        ) {
+          console.log("COLLISON");
+          if (this.ownCard.includes(symbol.name)) {
+            // ui.updateUserCardUI(this.mainCard);
+            this.message = {
+              type: "scoredPoint",
+              roomName: net.room,
+              playerName: net.player,
+              roundNumber: this.roundNumber,
+            };
+            net.sendMessage(this.message);
+          }
+          //symbol.changeSymbolIcon("carrot");
+        }
+      });
 
       //console.log(this.ownPlayer.model.rotation);
 
@@ -142,6 +158,7 @@ class Game {
         this.ownPlayer.model.translateZ(this.velocity);
       }
 
+      //COLLISION WITH WALLS
       let movementArea = 460;
 
       if (this.ownPlayer.model.position.x > movementArea) {
@@ -159,6 +176,7 @@ class Game {
       if (this.ownPlayer.model.position.z < -movementArea) {
         this.ownPlayer.model.position.setZ(-movementArea);
       }
+      //
 
       if (this.keys.a) this.rotateSpeed = 0.04;
       else if (this.keys.d) this.rotateSpeed = -0.04;
@@ -214,12 +232,28 @@ class Game {
     }
   };
 
+  renderSymbols = (symbolsPositions, mainCard) => {
+    symbolsPositions.forEach((sybmolCoords, i) => {
+      const symbol = new Symbol(mainCard[i]);
+      symbol.position.set(
+        sybmolCoords.symbolX,
+        sybmolCoords.symbolY,
+        sybmolCoords.symbolZ
+      );
+      this.scene.add(symbol);
+      this.symbols.push(symbol);
+    });
+  };
+
+  updateSymbols = (mainCard) => {
+    this.symbols.forEach((symbol, i) => {
+      symbol.changeSymbolIcon(mainCard[i]);
+      symbol.name = mainCard[i];
+    });
+  };
+
   renderPlayers = (players) => {
     //TESTS
-
-    const symbol = new Symbol("apricot");
-    symbol.position.set(100, 0, 100);
-    this.scene.add(symbol);
 
     //******************
 

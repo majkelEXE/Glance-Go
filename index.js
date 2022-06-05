@@ -120,33 +120,52 @@ wss.on("connection", function connection(ws) {
                   function (err, result) {
                     if (err) throw err;
 
-                    requestedRoom.clients.forEach((client, i) => {
-                      client.setPosition(result.coordinates[i]);
-                    });
-                    //
+                    dbo
+                      .collection("symbolsCoordinates")
+                      .find({})
+                      .toArray(function (err, symbolsCoordinates) {
+                        if (err) throw err;
 
-                    requestedRoom.clients.forEach((client, i) => {
-                      let msg = JSON.stringify({
-                        message: "start",
-                        players: requestedRoom.clients,
-                        ownCard: requestedRoom.cards[i],
-                        mainCard:
-                          requestedRoom.cards[requestedRoom.clients.length],
+                        console.log(symbolsCoordinates);
+
+                        var startCards = [];
+
+                        requestedRoom.clients.forEach((client, i) => {
+                          client.setPosition(result.coordinates[i]);
+                          startCards.push(requestedRoom.cards[i]);
+                        });
+
+                        let mainCard =
+                          requestedRoom.cards[requestedRoom.clients.length];
+
+                        let msg = JSON.stringify({
+                          message: "start",
+                          players: requestedRoom.clients,
+                          symbolsCoordinates: symbolsCoordinates,
+                          mainCard: mainCard,
+                          roundNumber: requestedRoom.roundNumber,
+                        });
+
+                        requestedRoom.clients.forEach((client, i) => {
+                          msg = JSON.parse(msg);
+                          msg["ownCard"] = startCards[i];
+                          msg = JSON.stringify(msg);
+
+                          if (client.wsClient.readyState === ws.OPEN) {
+                            client.wsClient.send(msg, {
+                              binary: isBinary,
+                            });
+                          }
+                        });
+
+                        requestedRoom.cards.splice(
+                          0,
+                          requestedRoom.clients.length + 1
+                        );
+                        //
+
+                        db.close();
                       });
-                      if (client.wsClient.readyState === ws.OPEN) {
-                        client.wsClient.send(msg, { binary: isBinary });
-                      }
-                    });
-
-                    console.log(requestedRoom.cards.length);
-                    requestedRoom.cards.splice(
-                      0,
-                      requestedRoom.clients.length + 1
-                    );
-                    console.log(requestedRoom.cards.length);
-                    //
-
-                    db.close();
                   }
                 );
             });
@@ -203,6 +222,44 @@ wss.on("connection", function connection(ws) {
         }
 
         //console.log(rooms);
+
+        break;
+      case "scoredPoint":
+        var requestedRoom = rooms.filter(
+          (room) => room.roomName == data.roomName
+        )[0];
+
+        if (requestedRoom.roundNumber == data.roundNumber) {
+          ws.send(JSON.stringify({ message: "pointScored" }));
+
+          requestedRoom.roundNumber += 1;
+
+          requestedRoom.clients.forEach((client) => {
+            if (client.clientName == data.playerName) {
+              client.clientName += 1;
+              return;
+            }
+          });
+
+          if (requestedRoom.cards.length > 0) {
+            data = JSON.stringify({
+              message: "updateMainCard",
+              mainCard: requestedRoom.cards[0],
+              roundNumber: requestedRoom.roundNumber,
+            });
+            requestedRoom.cards.splice(0, 1);
+          } else {
+            data = JSON.stringify({
+              message: "gameFinished",
+            });
+          }
+
+          requestedRoom.clients.forEach((client) => {
+            if (client.wsClient.readyState === ws.OPEN) {
+              client.wsClient.send(data, { binary: isBinary });
+            }
+          });
+        }
 
         break;
     }

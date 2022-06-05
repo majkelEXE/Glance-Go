@@ -1,0 +1,17 @@
+#gameMenu {
+  display: none;
+}
+
+#ownCard {
+  display: flex;
+  background-color: var(--main-color);
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  color: var(--font-color);
+  padding: 10px;
+  /* aspect-ratio: 1; */
+  position: absolute;
+  bottom: 0;
+}

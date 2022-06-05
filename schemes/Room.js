@@ -3,6 +3,7 @@ class Room {
     (this.roomName = roomName),
       (this.clients = [ownerClient]),
       (this.cards = []);
+    this.roundNumber = 0;
   }
 
   addClient(client) {
@@ -10,7 +11,7 @@ class Room {
   }
 
   removeClient(name) {
-    this.clients = this.clients.filter(client => client.clientName != name)
+    this.clients = this.clients.filter((client) => client.clientName != name);
   }
 
   getRefreshedClientsMessage() {
