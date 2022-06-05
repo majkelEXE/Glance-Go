@@ -1,0 +1,10 @@
+[
+  { "symbolX": 283, "symbolY": 0, "symbolZ": 283 },
+  { "symbolX": 400, "symbolY": 0, "symbolZ": 0 },
+  { "symbolX": 283, "symbolY": 0, "symbolZ": -283 },
+  { "symbolX": 0, "symbolY": 0, "symbolZ": -400 },
+  { "symbolX": -283, "symbolY": 0, "symbolZ": -283 },
+  { "symbolX": -400, "symbolY": 0, "symbolZ": 0 },
+  { "symbolX": -283, "symbolY": 0, "symbolZ": 283 },
+  { "symbolX": 0, "symbolY": 0, "symbolZ": 400 }
+]

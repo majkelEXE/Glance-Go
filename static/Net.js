@@ -66,10 +66,29 @@ class Net {
           break;
         case "start":
           ui.startGame();
+          ui.showGameInterface();
+          game.ownCard = respond.ownCard;
+          game.mainCard = respond.mainCard;
+          game.roundNumber = respond.roundNumber;
+          ui.updateUserCardUI(respond.ownCard);
+          game.renderSymbols(respond.symbolsCoordinates, respond.mainCard);
           game.renderPlayers(respond.players);
           break;
         case "updatePlayer":
           game.updateOtherPlayer(respond.playerInfo);
+          break;
+        case "pointScored":
+          ui.updateUserCardUI(game.mainCard);
+          game.ownCard = game.mainCard;
+          break;
+        case "updateMainCard":
+          game.mainCard = respond.mainCard;
+          game.roundNumber = respond.roundNumber;
+          game.updateSymbols(respond.mainCard);
+          break;
+        case "gameFinished":
+          location.reload();
+          alert("GRA SKONCZONA!11!!111");
           break;
       }
     });

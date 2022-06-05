@@ -65,6 +65,7 @@ class CardSetter {
     let numberOfSymbolsOnCard = 8;
 
     let shuffleSymbolsOnCard = true;
+    let shuffleCards = true;
 
     let cards = [];
 
@@ -121,6 +122,9 @@ class CardSetter {
       });
     }
 
+    if (shuffleCards) {
+      shuffle(cards);
+    }
     // console.log(cards.map((card) => card.map((num) => this.symbols[num - 1])));
     cards = cards.map((card) => {
       return card.map((num) => this.symbols[num - 1]);

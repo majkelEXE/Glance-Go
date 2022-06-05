@@ -3,6 +3,7 @@ export default class Symbol extends THREE.Mesh {
     super(new THREE.CylinderGeometry(50, 50, 10, 64));
     this.loader = new THREE.TextureLoader();
     this.radius = 25;
+    this.name = symbol;
 
     this.loader.load(`./../assets/icons/${symbol}.png`, (texture) => {
       this.material = [
@@ -17,4 +18,19 @@ export default class Symbol extends THREE.Mesh {
       console.log(this);
     });
   }
+
+  changeSymbolIcon = (symbol) => {
+    this.loader.load(`./../assets/icons/${symbol}.png`, (texture) => {
+      this.material = [
+        new THREE.MeshPhongMaterial({
+          color: 0xffffff,
+        }),
+        new THREE.MeshPhongMaterial({
+          map: texture,
+          transparent: true,
+        }),
+      ];
+      console.log(this);
+    });
+  };
 }
