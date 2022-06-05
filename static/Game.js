@@ -1,6 +1,7 @@
 import Player from "./gameComponents/Player.js";
 import RoomModel from "./gameComponents/RoomModel.js";
 import Symbol from "./gameComponents/Symbol.js";
+import { areSpheresCollided, isPointInsideSphere } from "./libs/collisions.js";
 import { net } from "./Main.js";
 
 class Game {
@@ -84,6 +85,19 @@ class Game {
     if (this.ownPlayer != undefined) {
       //COLLISION
 
+      let symbol = this.scene.children.filter(
+        (child) => child instanceof Symbol
+      )[0];
+
+      if (
+        isPointInsideSphere(
+          { ...this.ownPlayer.model.position },
+          { ...symbol.position, radius: symbol.radius }
+        )
+      ) {
+        console.log("COLLISON");
+      }
+
       //console.log(this.ownPlayer.model.rotation);
 
       if (this.ownPlayer.mixer) {
@@ -96,15 +110,60 @@ class Game {
       if (this.keys.w) this.speed = 2;
       else if (this.keys.s) this.speed = -2;
 
+      //HERE COLLISION WITH WALLS
       this.velocity += (this.speed - this.velocity) * 0.2;
-      this.ownPlayer.model.translateZ(this.velocity);
 
-      //
+      let collisionWithPlayer = false;
+
+      if (this.players.length > 0) {
+        this.players.forEach((player) => {
+          if (
+            areSpheresCollided(
+              { ...player.model.position, radius: 25 },
+              { ...this.ownPlayer.model.position, radius: 25 }
+            ) &&
+            !collisionWithPlayer
+          ) {
+            collisionWithPlayer = true;
+          }
+        });
+      } else {
+        this.ownPlayer.model.translateZ(this.velocity);
+      }
+
+      if (collisionWithPlayer) {
+        this.ownPlayer.model.position.set(
+          this.ownPlayer.lastPositon.x,
+          this.ownPlayer.lastPositon.y,
+          this.ownPlayer.lastPositon.z
+        );
+      } else {
+        this.ownPlayer.lastPositon = { ...this.ownPlayer.model.position };
+        this.ownPlayer.model.translateZ(this.velocity);
+      }
+
+      let movementArea = 460;
+
+      if (this.ownPlayer.model.position.x > movementArea) {
+        this.ownPlayer.model.position.setX(movementArea);
+      }
+
+      if (this.ownPlayer.model.position.x < -movementArea) {
+        this.ownPlayer.model.position.setX(-movementArea);
+      }
+
+      if (this.ownPlayer.model.position.z > movementArea) {
+        this.ownPlayer.model.position.setZ(movementArea);
+      }
+
+      if (this.ownPlayer.model.position.z < -movementArea) {
+        this.ownPlayer.model.position.setZ(-movementArea);
+      }
+
       if (this.keys.a) this.rotateSpeed = 0.04;
       else if (this.keys.d) this.rotateSpeed = -0.04;
 
       this.ownPlayer.model.rotateY(this.rotateSpeed);
-      //
 
       this.a.lerp(this.ownPlayer.model.position, 1);
       this.b.copy(this.goal.position);

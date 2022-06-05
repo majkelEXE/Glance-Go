@@ -30,6 +30,8 @@ export default class Player {
     this.mixer = new THREE.AnimationMixer(this.model);
     this.running = true;
 
+    this.lastPositon = null;
+
     console.log(this);
 
     this.playRestingAnimation();
