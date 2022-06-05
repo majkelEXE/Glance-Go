@@ -16,7 +16,7 @@ class Game {
     this.camera.position.set(Math.sin(500), 200, Math.cos(-500));
     this.camera.lookAt(this.scene.position);
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
-    this.renderer.setClearColor(0x000000);
+    this.renderer.setClearColor("#89e0e8");
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     document.getElementById("root").append(this.renderer.domElement);
 
@@ -63,7 +63,7 @@ class Game {
     this.symbols = [];
     this.roundNumber;
     //
-
+    this.renderMap();
     // this.moveUpDown = 0; // 0 - none, 1 - up, -1 - down
     // this.moveLeftRight = 0; // 0 - none, 1 - left, -1 - right
   }
@@ -94,8 +94,8 @@ class Game {
 
       symbols.forEach((symbol) => {
         if (
-          isPointInsideSphere(
-            { ...this.ownPlayer.model.position },
+          areSpheresCollided(
+            { ...this.ownPlayer.model.position, radius: 25 },
             { ...symbol.position, radius: symbol.radius }
           )
         ) {
@@ -123,8 +123,8 @@ class Game {
       this.speed = 0.0;
       this.rotateSpeed = 0.0;
 
-      if (this.keys.w) this.speed = 2;
-      else if (this.keys.s) this.speed = -2;
+      if (this.keys.w) this.speed = 3;
+      else if (this.keys.s) this.speed = -3;
 
       //HERE COLLISION WITH WALLS
       this.velocity += (this.speed - this.velocity) * 0.2;
@@ -249,6 +249,32 @@ class Game {
     this.symbols.forEach((symbol, i) => {
       symbol.changeSymbolIcon(mainCard[i]);
       symbol.name = mainCard[i];
+    });
+  };
+
+  renderMap = () => {
+    let self = this;
+    const loader = new THREE.GLTFLoader();
+
+    const light = new THREE.PointLight(0xffffff, 0.1);
+    light.position.set(0, 0, 0);
+    this.scene.add(light);
+
+    loader.load("./assets/models/map/scene.gltf", function (object) {
+      console.log(object);
+
+      object.scene.traverse(function (child) {
+        // tu można wykonać dowolną operację dla każdego mesha w modelu
+        if (child.isMesh) {
+          console.log(child);
+        }
+
+        object.scene.scale.set(75, 75, 75);
+        object.scene.position.setY(-1500);
+        object.scene.position.setZ(1000);
+        // dodanie do sceny
+        self.scene.add(object.scene);
+      });
     });
   };
 
