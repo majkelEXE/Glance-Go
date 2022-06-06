@@ -99,8 +99,7 @@ class Game {
             { ...symbol.position, radius: symbol.radius }
           )
         ) {
-          console.log("COLLISON");
-          if (this.ownCard.includes(symbol.name)) {
+          if (this.ownCard.includes(symbol.name) && this.ownPlayer.cooledDown) {
             // ui.updateUserCardUI(this.mainCard);
             this.message = {
               type: "scoredPoint",
@@ -109,6 +108,32 @@ class Game {
               roundNumber: this.roundNumber,
             };
             net.sendMessage(this.message);
+
+            this.ownPlayer.coolDownProtected = true;
+
+            this.ownPlayer.coolDownProtectionTimeout = setTimeout(() => {
+              console.log("PROTECTION EXPIRED");
+              this.ownPlayer.coolDownProtected = false;
+            }, 3000);
+          } else {
+            console.log("COOLING");
+
+            //HANDLE COOLDOWN
+            if (
+              this.ownPlayer.cooledDown &&
+              !this.ownPlayer.coolDownProtected
+            ) {
+              this.ownPlayer.cooledDown = false;
+              //show timer
+
+              ui.showCooldown();
+
+              this.ownPlayer.coolDownTimeout = setTimeout(() => {
+                console.log("COOLED");
+                this.ownPlayer.cooledDown = true;
+                ui.hideCooldown();
+              }, 5000);
+            }
           }
           //symbol.changeSymbolIcon("carrot");
         }

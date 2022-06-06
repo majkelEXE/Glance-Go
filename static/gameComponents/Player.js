@@ -32,6 +32,12 @@ export default class Player {
 
     this.lastPositon = null;
 
+    this.cooledDown = true;
+    this.coolDownTimeout = null;
+
+    this.coolDownProtected = false;
+    this.coolDownProtectionTimeout = null;
+
     console.log(this);
 
     this.playRestingAnimation();

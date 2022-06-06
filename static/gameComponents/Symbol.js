@@ -6,6 +6,10 @@ export default class Symbol extends THREE.Mesh {
     this.name = symbol;
 
     this.loader.load(`./../assets/icons/${symbol}.png`, (texture) => {
+      // texture.offset.set(0.5, 0.5);
+
+      // console.log(texture);
+
       this.material = [
         new THREE.MeshPhongMaterial({
           color: 0xffffff,

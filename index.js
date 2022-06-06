@@ -97,18 +97,18 @@ wss.on("connection", function connection(ws) {
           requestedUser.setReady(!requestedUser.ready);
           requestedUser.setColor(data.color);
 
-          console.log(requestedUser);
+          //console.log(requestedUser);
 
           if (
             requestedRoom.clients.filter((client) => client.ready == false)
               .length == 0
           ) {
-            console.log(requestedRoom.clients.length.toString()); //karta z tym indeksem to mainCard
+            //console.log(requestedRoom.clients.length.toString()); //karta z tym indeksem to mainCard
 
             const roomCardSetter = new CardSetter();
             requestedRoom.cards = roomCardSetter.renderCardSet();
 
-            console.log(requestedRoom);
+            //console.log(requestedRoom);
 
             MongoClient.connect(url, function (err, db) {
               if (err) throw err;
@@ -126,7 +126,7 @@ wss.on("connection", function connection(ws) {
                       .toArray(function (err, symbolsCoordinates) {
                         if (err) throw err;
 
-                        console.log(symbolsCoordinates);
+                        //console.log(symbolsCoordinates);
 
                         var startCards = [];
 
@@ -203,6 +203,8 @@ wss.on("connection", function connection(ws) {
 
         break;
       case "leaveRoom":
+        console.log(data);
+
         var requestedRoom = rooms.filter(
           (room) => room.roomName == data.roomName
         )[0];
@@ -221,7 +223,7 @@ wss.on("connection", function connection(ws) {
           rooms = rooms.filter((room) => room.roomName != data.roomName);
         }
 
-        //console.log(rooms);
+        console.log(requestedRoom);
 
         break;
       case "scoredPoint":

@@ -91,7 +91,7 @@ class Ui {
 
     cancelAnimationFrame(lobbyModel.id);
     document.getElementsByTagName("body")[0].innerHTML =
-      "<div id='gameMenu'><div id='ownCard'></div></div><div id='root'></div>";
+      "<div id='gameMenu'><div id='ownCard'></div><div id='coolDownContainer'></div></div><div id='root'></div>";
 
     initializeGame();
   };
@@ -108,6 +108,14 @@ class Ui {
         "ownCard"
       ).innerHTML += `<img src="../assets/icons/${card}.png" alt="${card}" width="40px" height="auto"/>`;
     });
+  };
+
+  showCooldown = () => {
+    document.getElementById("coolDownContainer").style.display = "flex";
+  };
+
+  hideCooldown = () => {
+    document.getElementById("coolDownContainer").style.display = "none";
   };
 
   //TODO: There is a possibility to function for displaying alerts here, but i dont knwo if it has any sense.
