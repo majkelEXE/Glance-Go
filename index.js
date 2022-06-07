@@ -12,6 +12,9 @@ var Client = require("./schemes/Client");
 var Room = require("./schemes/Room");
 var Owner = require("./schemes/Owner");
 
+var defaultPlayersCoordinates = require("./data/defaultPlayersCoordinates.json");
+var symbolsCoordinates = require("./data/symbolsCoordinates.json");
+
 //ZMIENNE Z DANYMI DYNAMICZNYMI
 var rooms = [];
 //
@@ -20,6 +23,34 @@ app.use(express.static("static"));
 
 const server = app.listen(PORT, function () {
   console.log("http://localhost:" + PORT);
+  MongoClient.connect(url + "GlanceAndGo", function (err, db) {
+    if (err) throw err;
+    var dbo = db.db("GlanceAndGo");
+    dbo.listCollections().toArray(function (err, collections) {
+      console.log(collections.length);
+      if (collections.length == 0) {
+        dbo.createCollection("defaultPlayersCoordinates", function (err, res) {
+          if (err) throw err;
+          dbo.createCollection("symbolsCoordinates", function (err, res) {
+            if (err) throw err;
+            dbo
+              .collection("defaultPlayersCoordinates")
+              .insertMany(defaultPlayersCoordinates, function (err, res) {
+                if (err) throw err;
+                dbo
+                  .collection("symbolsCoordinates")
+                  .insertMany(symbolsCoordinates, function (err, res) {
+                    if (err) throw err;
+                    db.close();
+                  });
+              });
+          });
+        });
+      } else {
+        console.log("Dane znajdowały sie juz w bazie");
+      }
+    });
+  });
 });
 
 app.get("/", function (req, res) {

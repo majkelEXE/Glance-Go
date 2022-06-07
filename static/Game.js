@@ -244,13 +244,17 @@ class Game {
   };
 
   renderSymbols = (symbolsPositions, mainCard) => {
+    console.log(symbolsPositions);
     symbolsPositions.forEach((sybmolCoords, i) => {
       const symbol = new Symbol(mainCard[i]);
+      console.log(sybmolCoords.symbolRotateY);
       symbol.position.set(
         sybmolCoords.symbolX,
         sybmolCoords.symbolY,
         sybmolCoords.symbolZ
       );
+
+      symbol.rotateY(sybmolCoords.symbolRotateY);
       this.scene.add(symbol);
       this.symbols.push(symbol);
     });
@@ -276,9 +280,9 @@ class Game {
 
       object.scene.traverse(function (child) {
         // tu można wykonać dowolną operację dla każdego mesha w modelu
-        if (child.isMesh) {
-          console.log(child);
-        }
+        // if (child.isMesh) {
+        //   console.log(child);
+        // }
 
         object.scene.scale.set(75, 75, 75);
         object.scene.position.setY(-1500);

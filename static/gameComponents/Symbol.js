@@ -19,7 +19,7 @@ export default class Symbol extends THREE.Mesh {
           transparent: true,
         }),
       ];
-      console.log(this);
+      // console.log(this);
     });
   }
 
@@ -34,7 +34,7 @@ export default class Symbol extends THREE.Mesh {
           transparent: true,
         }),
       ];
-      console.log(this);
+      // console.log(this);
     });
   };
 }

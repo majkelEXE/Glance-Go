@@ -47,7 +47,7 @@ export default class Player {
 
   playRunningAnimation = () => {
     if (!this.running) {
-      console.log("PLAYING RUNNING");
+      // console.log("PLAYING RUNNING");
       this.mixer.stopAllAction();
       this.mixer.clipAction(this.model.animations[0]).play();
 
@@ -57,7 +57,7 @@ export default class Player {
 
   playRestingAnimation = () => {
     if (this.running) {
-      console.log("STOPPING RUNNING");
+      // console.log("STOPPING RUNNING");
       this.mixer.stopAllAction();
       this.mixer.clipAction(this.model.animations[2]).play();
 
