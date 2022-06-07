@@ -26,7 +26,6 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  min-height: 241px;
 }
 #gameInfo > div {
   margin: 25px;
@@ -35,7 +34,7 @@
 #coolDownContainer {
   display: flex;
 
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   flex-direction: column;
 }
@@ -47,18 +46,18 @@
 #coolDown {
   margin-top: 25px;
   display: none;
-  width: 50px;
-  height: 150px;
+  width: 90px;
+  height: 10px;
   animation: pass 5.1s;
 }
 
 @keyframes pass {
   from {
-    height: 150px;
+    width: 90px;
     background-color: red;
   }
   to {
-    height: 0px;
+    width: 0px;
     background-color: greenyellow;
   }
 }

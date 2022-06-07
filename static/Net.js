@@ -29,6 +29,10 @@ class Net {
       this.player = value;
     };
 
+    const getPlayer = () => {
+      return this.player;
+    };
+
     const setRoom = (value) => {
       this.room = value;
     };
@@ -62,6 +66,12 @@ class Net {
           break;
         case "refreshClients":
           setPlayers(respond.roomClients);
+          if (
+            respond.roomClients.filter((client) => client.owner)[0]
+              .clientName == getPlayer()
+          ) {
+            ui.showGameConfiguration();
+          }
           ui.updateUserList(getPlayers());
           break;
         case "start":

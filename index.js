@@ -17,6 +17,7 @@ var symbolsCoordinates = require("./data/symbolsCoordinates.json");
 
 //ZMIENNE Z DANYMI DYNAMICZNYMI
 var rooms = [];
+let numberOfSymbols;
 //
 
 app.use(express.static("static"));
@@ -117,6 +118,7 @@ wss.on("connection", function connection(ws) {
         }
         break;
       case "setReady":
+        console.log(data);
         var requestedRoom = rooms.filter(
           (room) => room.roomName == data.roomName
         )[0];
@@ -124,6 +126,10 @@ wss.on("connection", function connection(ws) {
         var requestedUser = requestedRoom.clients.filter(
           (client) => client.clientName == data.clientName
         )[0];
+
+        if (requestedUser.owner) {
+          numberOfSymbols = data.numberOfSymbols;
+        }
 
         if (requestedUser) {
           requestedUser.setReady(!requestedUser.ready);
@@ -138,7 +144,7 @@ wss.on("connection", function connection(ws) {
             //console.log(requestedRoom.clients.length.toString()); //karta z tym indeksem to mainCard
 
             const roomCardSetter = new CardSetter();
-            requestedRoom.cards = roomCardSetter.renderCardSet();
+            requestedRoom.cards = roomCardSetter.renderCardSet(numberOfSymbols);
 
             //console.log(requestedRoom);
 
@@ -154,50 +160,53 @@ wss.on("connection", function connection(ws) {
 
                     dbo
                       .collection("symbolsCoordinates")
-                      .find({})
-                      .toArray(function (err, symbolsCoordinates) {
-                        if (err) throw err;
+                      .findOne(
+                        { numberOfSymbols: numberOfSymbols },
+                        (err, res) => {
+                          console.log(res);
+                          if (err) throw err;
 
-                        //console.log(symbolsCoordinates);
+                          //console.log(symbolsCoordinates);
 
-                        var startCards = [];
+                          var startCards = [];
 
-                        requestedRoom.clients.forEach((client, i) => {
-                          client.setPosition(result.coordinates[i]);
-                          startCards.push(requestedRoom.cards[i]);
-                        });
+                          requestedRoom.clients.forEach((client, i) => {
+                            client.setPosition(result.coordinates[i]);
+                            startCards.push(requestedRoom.cards[i]);
+                          });
 
-                        let mainCard =
-                          requestedRoom.cards[requestedRoom.clients.length];
+                          let mainCard =
+                            requestedRoom.cards[requestedRoom.clients.length];
 
-                        let msg = JSON.stringify({
-                          message: "start",
-                          players: requestedRoom.clients,
-                          symbolsCoordinates: symbolsCoordinates,
-                          mainCard: mainCard,
-                          roundNumber: requestedRoom.roundNumber,
-                        });
+                          let msg = JSON.stringify({
+                            message: "start",
+                            players: requestedRoom.clients,
+                            symbolsCoordinates: res.symbolsData,
+                            mainCard: mainCard,
+                            roundNumber: requestedRoom.roundNumber,
+                          });
 
-                        requestedRoom.clients.forEach((client, i) => {
-                          msg = JSON.parse(msg);
-                          msg["ownCard"] = startCards[i];
-                          msg = JSON.stringify(msg);
+                          requestedRoom.clients.forEach((client, i) => {
+                            msg = JSON.parse(msg);
+                            msg["ownCard"] = startCards[i];
+                            msg = JSON.stringify(msg);
 
-                          if (client.wsClient.readyState === ws.OPEN) {
-                            client.wsClient.send(msg, {
-                              binary: isBinary,
-                            });
-                          }
-                        });
+                            if (client.wsClient.readyState === ws.OPEN) {
+                              client.wsClient.send(msg, {
+                                binary: isBinary,
+                              });
+                            }
+                          });
 
-                        requestedRoom.cards.splice(
-                          0,
-                          requestedRoom.clients.length + 1
-                        );
-                        //
+                          requestedRoom.cards.splice(
+                            0,
+                            requestedRoom.clients.length + 1
+                          );
+                          //
 
-                        db.close();
-                      });
+                          db.close();
+                        }
+                      );
                   }
                 );
             });
