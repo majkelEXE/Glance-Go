@@ -73,6 +73,7 @@ class Net {
           ui.updateUserCardUI(respond.ownCard);
           game.renderSymbols(respond.symbolsCoordinates, respond.mainCard);
           game.renderPlayers(respond.players);
+          ui.updateScoreBoard(respond.players);
           break;
         case "updatePlayer":
           game.updateOtherPlayer(respond.playerInfo);
@@ -85,6 +86,7 @@ class Net {
           game.mainCard = respond.mainCard;
           game.roundNumber = respond.roundNumber;
           game.updateSymbols(respond.mainCard);
+          ui.updateScoreBoard(respond.clients);
           break;
         case "gameFinished":
           location.reload();
