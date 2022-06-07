@@ -40,6 +40,8 @@
 
 #mainQueueSection {
   margin: 100px;
+  display: flex;
+  flex-direction: column;
 }
 
 #startRoom {
@@ -145,4 +147,32 @@ input[type="color"]::-webkit-color-swatch {
 #ownPlayer::before {
   content: "🐵";
   margin-right: 5px;
+}
+
+.ownerPlayer::before {
+  content: "👑";
+  margin-right: 5px;
+}
+
+#ownPlayer.ownerPlayer::before {
+  content: "👑🐵";
+  margin-right: 5px;
+}
+
+#configurationContainer {
+  font-size: 25px;
+  text-align: center;
+  display: none;
+  align-items: center;
+  justify-content: start;
+  flex-direction: column;
+  margin-top: 50px;
+}
+
+#configurationContainer > input {
+  margin: 25px 0;
+}
+
+#configurationContainer > p {
+  margin-bottom: 5px;
 }

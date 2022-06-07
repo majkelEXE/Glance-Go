@@ -28,6 +28,9 @@ class Ui {
         roomName: net.room,
         clientName: net.player,
         color: document.getElementById("modelColor").value,
+        numberOfSymbols: parseInt(
+          document.getElementById("numberOfSymbols").innerHTML.slice(-1)
+        ),
       };
 
       net.sendMessage(message);
@@ -45,6 +48,15 @@ class Ui {
     // document.getElementById("test").addEventListener("click", () => {
 
     // });
+
+    document.getElementById("configInput").addEventListener("input", (e) => {
+      document.getElementById(
+        "numberOfSymbols"
+      ).innerHTML = `Symbols: ${e.target.value}`;
+      document.getElementById("numberOfCards").innerHTML = `Cards: ${
+        (e.target.value - 1) ** 2 + (e.target.value - 1) + 1
+      }`;
+    });
 
     window.addEventListener("beforeunload", function (e) {
       var message = {
@@ -76,7 +88,9 @@ class Ui {
     players.forEach((player) => {
       usersListElement += `<p id="${
         player.clientName == net.player && "ownPlayer"
-      }"> ${player.clientName} <span class="${
+      }" class="${player.owner && "ownerPlayer"}"> ${
+        player.clientName
+      } <span class="${
         player.ready ? "readyPlayer" : "notReadyPlayer"
       } "></span></p>`;
     });
@@ -128,6 +142,10 @@ class Ui {
       });
 
     document.getElementById("users").innerHTML = usersString;
+  };
+
+  showGameConfiguration = () => {
+    document.getElementById("configurationContainer").style.display = "flex";
   };
 
   //TODO: There is a possibility to function for displaying alerts here, but i dont knwo if it has any sense.

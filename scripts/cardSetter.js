@@ -61,9 +61,9 @@ class CardSetter {
     ];
   }
 
-  renderCardSet() {
+  renderCardSet(symbolsNumber) {
     //This has to be a prime + 1
-    let numberOfSymbolsOnCard = 8;
+    let numberOfSymbolsOnCard = symbolsNumber;
 
     let shuffleSymbolsOnCard = true;
     let shuffleCards = true;
