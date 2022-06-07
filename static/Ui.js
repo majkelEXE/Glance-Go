@@ -91,7 +91,7 @@ class Ui {
 
     cancelAnimationFrame(lobbyModel.id);
     document.getElementsByTagName("body")[0].innerHTML =
-      "<div id='gameMenu'><div id='ownCard'></div><div id='coolDownContainer'></div></div><div id='root'></div>";
+      "<div id='gameMenu'><div id='ownCard'></div><div id='gameInfo'><div id='usersContainer'><p>USERS</p><div id='users'></div></div><div id='coolDownContainer'><p>COOLDOWN</p><div id='coolDown'></div></div></div></div><div id='root'></div>";
 
     initializeGame();
   };
@@ -111,11 +111,23 @@ class Ui {
   };
 
   showCooldown = () => {
-    document.getElementById("coolDownContainer").style.display = "flex";
+    document.getElementById("coolDown").style.display = "flex";
   };
 
   hideCooldown = () => {
-    document.getElementById("coolDownContainer").style.display = "none";
+    document.getElementById("coolDown").style.display = "none";
+  };
+
+  updateScoreBoard = (clients) => {
+    let usersString = "";
+
+    clients
+      .sort((a, b) => b.points - a.points)
+      .forEach((client) => {
+        usersString += `<p>${client.clientName}: ${client.points}</p>`;
+      });
+
+    document.getElementById("users").innerHTML = usersString;
   };
 
   //TODO: There is a possibility to function for displaying alerts here, but i dont knwo if it has any sense.

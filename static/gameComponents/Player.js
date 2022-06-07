@@ -10,6 +10,8 @@
 
 // const pionek = new Player();
 
+import { ui } from "./../Main.js";
+
 export default class Player {
   constructor(name, color, model) {
     this.name = name;
@@ -61,5 +63,26 @@ export default class Player {
 
       this.running = false;
     }
+  };
+
+  startCooldown = () => {
+    this.cooledDown = false;
+
+    ui.showCooldown();
+
+    this.coolDownTimeout = setTimeout(() => {
+      console.log("COOLED");
+      this.cooledDown = true;
+      ui.hideCooldown();
+    }, 5000);
+  };
+
+  startCooldownProtection = () => {
+    this.coolDownProtected = true;
+
+    this.coolDownProtectionTimeout = setTimeout(() => {
+      console.log("PROTECTION EXPIRED");
+      this.coolDownProtected = false;
+    }, 3000);
   };
 }
