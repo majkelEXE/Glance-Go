@@ -34,6 +34,12 @@ class Ui {
       };
 
       net.sendMessage(message);
+
+      if (document.getElementById("startRoom").innerHTML == "Start") {
+        document.getElementById("startRoom").innerHTML = "Stop";
+      } else {
+        document.getElementById("startRoom").innerHTML = "Start";
+      }
     });
   }
 

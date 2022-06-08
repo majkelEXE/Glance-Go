@@ -101,8 +101,9 @@ class Net {
           ui.updateScoreBoard(respond.clients);
           break;
         case "gameFinished":
-          location.reload();
+          console.log("AAAA");
           alert("GRA SKONCZONA!11!!111");
+          location.reload();
           break;
       }
     });
