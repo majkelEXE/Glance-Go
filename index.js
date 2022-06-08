@@ -184,6 +184,10 @@ wss.on("connection", function connection(ws) {
                             symbolsCoordinates: res.symbolsData,
                             mainCard: mainCard,
                             roundNumber: requestedRoom.roundNumber,
+                            cardsLeft:
+                              requestedRoom.cards.length -
+                              requestedRoom.clients.length -
+                              1,
                           });
 
                           requestedRoom.clients.forEach((client, i) => {
@@ -289,6 +293,7 @@ wss.on("connection", function connection(ws) {
               message: "updateMainCard",
               mainCard: requestedRoom.cards[0],
               roundNumber: requestedRoom.roundNumber,
+              cardsLeft: requestedRoom.cards.length - 1,
               clients: requestedRoom.clients.map((client) => {
                 return { clientName: client.clientName, points: client.points };
               }),
