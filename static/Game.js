@@ -21,6 +21,17 @@ class Game {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     document.getElementById("root").append(this.renderer.domElement);
 
+    window.addEventListener(
+      "resize",
+      () => {
+        this.camera.aspect = window.innerWidth / window.innerHeight;
+        this.camera.updateProjectionMatrix();
+
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+      },
+      false
+    );
+
     const axesHelper = new THREE.AxesHelper(1000);
     this.scene.add(axesHelper);
 
@@ -63,6 +74,7 @@ class Game {
     this.mainCard = [];
     this.symbols = [];
     this.roundNumber;
+    this.cardsLeft = 0;
     //
     this.renderMap();
     // this.moveUpDown = 0; // 0 - none, 1 - up, -1 - down
@@ -144,7 +156,7 @@ class Game {
       // let collisionWithPlayer = false;
 
       // if (this.players.length > 0) {
-       
+
       //   this.players.forEach((player) => {
       //     if (
       //       areSpheresCollided(
@@ -173,21 +185,24 @@ class Game {
       //   this.ownPlayer.model.translateZ(this.velocity);
       // }
 
-            if (this.players.length > 0) {
-       
+      let collisionWithPlayer = false;
+
+      if (this.players.length > 0) {
         this.players.forEach((player) => {
           if (
-            !areSpheresCollided(
+            areSpheresCollided(
               { ...player.model.position, radius: 25 },
-              { ...translateZPrediction({...this.ownPlayer.model.quaternion}, this.velocity, {...this.ownPlayer.model.position}), radius: 25 }
+              {
+                ...translateZPrediction(
+                  { ...this.ownPlayer.model.quaternion },
+                  this.velocity,
+                  { ...this.ownPlayer.model.position }
+                ),
+                radius: 25,
+              }
             )
           ) {
-            console.log("NOOOOOOOOO COLLISON WITH PLAYER")
-            console.log("PREDICT: ",translateZPrediction({...this.ownPlayer.model.quaternion}, this.velocity, {...this.ownPlayer.model.position}))
-            this.ownPlayer.model.translateZ(this.velocity);
-            console.log("POSITION: ",this.ownPlayer.model.position)
-          }else {
-            console.log("COLLISON WITH PLAYER")
+            collisionWithPlayer = true;
           }
         });
       } else {
@@ -195,6 +210,21 @@ class Game {
         //console.log("NORMAL: ",(this.ownPlayer.model.position))
       }
 
+      console.log(collisionWithPlayer);
+
+      if (!collisionWithPlayer) {
+        this.ownPlayer.model.translateZ(this.velocity);
+      }
+
+      // console.log(
+      //   "PREDICT: ",
+      //   translateZPrediction(
+      //     { ...this.ownPlayer.model.quaternion },
+      //     this.velocity,
+      //     { ...this.ownPlayer.model.position }
+      //   )
+      // );
+      // console.log("POSITION: ", this.ownPlayer.model.position);
 
       //COLLISION WITH WALLS
       let movementArea = 460;

@@ -1,23 +1,19 @@
 export default function translateZPrediction(quaternion, distance, position) {
+  let v = new THREE.Vector3();
 
-    console.log(quaternion, distance, position)
+  v.copy(new THREE.Vector3(0, 0, 1)).applyQuaternion(
+    new THREE.Quaternion(
+      quaternion._x,
+      quaternion._y,
+      quaternion._z,
+      quaternion._w
+    )
+  );
 
-    let v = new THREE.Vector3()
+  let v2 = v.multiplyScalar(distance);
 
-    console.log(v)
+  position.x += v2.x;
+  position.z += v2.z;
 
-    v.copy(new THREE.Vector3(0, 0, 1)).applyQuaternion(quaternion)
-
-    //
-
-    console.log(v)
-
-    let v2 = v.multiplyScalar(distance)
-
-    console.log(v2)
-
-    position.x += v2.x;
-    position.y += v2.y;
-
-   return position
+  return position;
 }
