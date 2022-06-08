@@ -6,19 +6,19 @@
         "symbolX": 346,
         "symbolY": 0,
         "symbolZ": -200,
-        "symbolRotateY": 2.0943951023931953
+        "symbolRotateY": 0.523599
       },
       {
         "symbolX": -346,
         "symbolY": 0,
         "symbolZ": -200,
-        "symbolRotateY": 4.1887902047863905
+        "symbolRotateY": 2.61799
       },
       {
         "symbolX": 0,
         "symbolY": 0,
         "symbolZ": 400,
-        "symbolRotateY": 6.283185307179586
+        "symbolRotateY": 4.71238898038469
       }
     ]
   },
@@ -29,25 +29,25 @@
         "symbolX": 400,
         "symbolY": 0,
         "symbolZ": 0,
-        "symbolRotateY": 1.5707963267948966
+        "symbolRotateY": 6.283185307179586
       },
       {
         "symbolX": 0,
         "symbolY": 0,
         "symbolZ": -400,
-        "symbolRotateY": 3.141592653589793
+        "symbolRotateY": 1.5707963267948966
       },
       {
         "symbolX": -400,
         "symbolY": 0,
         "symbolZ": 0,
-        "symbolRotateY": 4.71238898038469
+        "symbolRotateY": 3.141592653589793
       },
       {
         "symbolX": 0,
         "symbolY": 0,
         "symbolZ": 400,
-        "symbolRotateY": 6.283185307179586
+        "symbolRotateY": 4.71238898038469
       }
     ]
   },
@@ -58,31 +58,31 @@
         "symbolX": 380,
         "symbolY": 0,
         "symbolZ": 124,
-        "symbolRotateY": 1.2566370614359172
+        "symbolRotateY": 5.96903
       },
       {
         "symbolX": 235,
         "symbolY": 0,
         "symbolZ": -324,
-        "symbolRotateY": 2.5132741228718345
+        "symbolRotateY": 0.942478
       },
       {
         "symbolX": -235,
         "symbolY": 0,
         "symbolZ": -324,
-        "symbolRotateY": 3.7699111843077517
+        "symbolRotateY": 2.19911
       },
       {
         "symbolX": -380,
         "symbolY": 0,
         "symbolZ": 124,
-        "symbolRotateY": 5.026548245743669
+        "symbolRotateY": 3.45575
       },
       {
         "symbolX": 0,
         "symbolY": 0,
         "symbolZ": 400,
-        "symbolRotateY": 6.283185307179586
+        "symbolRotateY": 4.71238898038469
       }
     ]
   },
@@ -93,37 +93,37 @@
         "symbolX": 346,
         "symbolY": 0,
         "symbolZ": 200,
-        "symbolRotateY": 1.0471975511965976
+        "symbolRotateY": 5.75959
       },
       {
         "symbolX": 346,
         "symbolY": 0,
         "symbolZ": -200,
-        "symbolRotateY": 2.0943951023931953
+        "symbolRotateY": 0.523599
       },
       {
         "symbolX": 0,
         "symbolY": 0,
         "symbolZ": -400,
-        "symbolRotateY": 3.141592653589793
+        "symbolRotateY": 1.5707963267948966
       },
       {
         "symbolX": -346,
         "symbolY": 0,
         "symbolZ": -200,
-        "symbolRotateY": 4.1887902047863905
+        "symbolRotateY": 2.61799
       },
       {
         "symbolX": -346,
         "symbolY": 0,
         "symbolZ": 200,
-        "symbolRotateY": 5.235987755982988
+        "symbolRotateY": 3.66519
       },
       {
         "symbolX": 0,
         "symbolY": 0,
         "symbolZ": 400,
-        "symbolRotateY": 6.283185307179586
+        "symbolRotateY": 4.71238898038469
       }
     ]
   },
@@ -134,43 +134,43 @@
         "symbolX": 313,
         "symbolY": 0,
         "symbolZ": 249,
-        "symbolRotateY": 6.283185307179586
+        "symbolRotateY": 5.60998688139643
       },
       {
         "symbolX": 390,
         "symbolY": 0,
         "symbolZ": -89,
-        "symbolRotateY": 0.8975979010256552
+        "symbolRotateY": 0.224399475255857
       },
       {
         "symbolX": 174,
         "symbolY": 0,
         "symbolZ": -360,
-        "symbolRotateY": 1.7951958020513104
+        "symbolRotateY": 1.12199737627929
       },
       {
         "symbolX": -174,
         "symbolY": 0,
         "symbolZ": -360,
-        "symbolRotateY": 2.6927937030769655
+        "symbolRotateY": 2.01959527730271
       },
       {
         "symbolX": -390,
         "symbolY": 0,
         "symbolZ": -89,
-        "symbolRotateY": 3.5903916041026207
+        "symbolRotateY": 2.91719317832614
       },
       {
         "symbolX": -313,
         "symbolY": 0,
         "symbolZ": 249,
-        "symbolRotateY": 4.487989505128276
+        "symbolRotateY": 3.81479107934957
       },
       {
         "symbolX": 0,
         "symbolY": 0,
         "symbolZ": 400,
-        "symbolRotateY": 5.385587406153931
+        "symbolRotateY": 4.71238898038469
       }
     ]
   },

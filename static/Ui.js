@@ -23,6 +23,10 @@ class Ui {
     });
 
     document.getElementById("startRoom").addEventListener("click", () => {
+      document.getElementById("startRoom").textContent == "Start"
+        ? (document.getElementById("startRoom").innerText = "Stop")
+        : (document.getElementById("startRoom").innerText = "Start");
+
       var message = {
         type: "setReady",
         roomName: net.room,
@@ -149,6 +153,45 @@ class Ui {
 
   showGameConfiguration = () => {
     document.getElementById("configurationContainer").style.display = "flex";
+  };
+
+  showFinalDialog = (userScores) => {
+    document.getElementsByTagName(
+      "body"
+    )[0].innerHTML += `<div id="finalDialog">
+    <h1 class="gameTitleMenu">GAME FINISHED!</h1>
+    <div class="scoreDiv"></div>
+    <div class="settingsDiv">
+      <button id="createRoom">Graj ponownie!</button>
+    </div>
+    </div>`;
+
+    console.log(userScores);
+
+    userScores.forEach((userScore, i) => {
+      console.log(userScore);
+      console.log(userScore[0]);
+      console.log(userScore[1]);
+      document.querySelector(".scoreDiv").innerHTML += `
+          <div class="playerScoreContainer">
+            <div class="playerScoreContainerNick">${userScore[0]}</div>
+            <div class="playerScoreContainerPoints">${userScore[1]}</div>
+          </div>`;
+
+      // if (i - 1 == userScore.length) {
+      //   console.log("KONIEC");
+      //   document.getElementsByTagName("body")[0].innerHTML += `</div></div>`;
+      // }
+    });
+
+    // for (const score of userScores.entries()) {
+    //   console.log(`${score[0]}: ${score[1]}`);
+    //   document.getElementsByTagName("body")[0].innerHTML += `
+    //     <div class="playerScoreContainer">
+    //       <div class="playerScoreContainerNick">${score[0]}</div>
+    //       <div class="playerScoreContainerPoints">${score[1]}</div>
+    //     </div>`;
+    // }
   };
 
   //TODO: There is a possibility to function for displaying alerts here, but i dont knwo if it has any sense.
