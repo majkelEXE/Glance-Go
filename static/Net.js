@@ -2,7 +2,7 @@ import { ui, game } from "./Main.js";
 
 class Net {
   constructor() {
-    this.socket = new WebSocket("ws://localhost:3000");
+    this.socket = new WebSocket("ws://10.0.0.32:3000");
     this.players = [];
     this.player = null;
     this.room = null;

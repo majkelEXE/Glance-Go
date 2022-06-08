@@ -105,7 +105,7 @@ class Ui {
 
     cancelAnimationFrame(lobbyModel.id);
     document.getElementsByTagName("body")[0].innerHTML =
-      "<div id='gameMenu'><div id='ownCard'></div><div id='gameInfo'><div id='usersContainer'><p>USERS</p><div id='users'></div></div><div id='coolDownContainer'><p>COOLDOWN</p><div id='coolDown'></div></div></div></div><div id='root'></div>";
+      "<div id='gameMenu'><div id='ownCard'></div><div id='gameInfo'><div id='usersContainer'><p>USERS</p><div id='users'></div></div><div id='cardsLeftContainer'><p>CARDS LEFT</p><div id='cardsLeft'></div></div><div id='coolDownContainer'><p>COOLDOWN</p><div id='coolDown'></div></div></div></div><div id='root'></div>";
 
     initializeGame();
   };

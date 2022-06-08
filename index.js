@@ -23,7 +23,7 @@ let numberOfSymbols;
 app.use(express.static("static"));
 
 const server = app.listen(PORT, function () {
-  console.log("http://localhost:" + PORT);
+  console.log("http://10.0.0.32:" + PORT);
   MongoClient.connect(url + "GlanceAndGo", function (err, db) {
     if (err) throw err;
     var dbo = db.db("GlanceAndGo");

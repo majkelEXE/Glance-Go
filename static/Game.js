@@ -2,6 +2,7 @@ import Player from "./gameComponents/Player.js";
 import RoomModel from "./gameComponents/RoomModel.js";
 import Symbol from "./gameComponents/Symbol.js";
 import { areSpheresCollided, isPointInsideSphere } from "./libs/collisions.js";
+import translateZPrediction from "./libs/translateZPredicition.js";
 import { net, ui } from "./Main.js";
 
 class Game {
@@ -140,34 +141,60 @@ class Game {
       //HERE COLLISION WITH WALLS
       this.velocity += (this.speed - this.velocity) * 0.2;
 
-      let collisionWithPlayer = false;
+      // let collisionWithPlayer = false;
 
-      if (this.players.length > 0) {
+      // if (this.players.length > 0) {
+       
+      //   this.players.forEach((player) => {
+      //     if (
+      //       areSpheresCollided(
+      //         { ...player.model.position, radius: 25 },
+      //         { ...this.ownPlayer.model.position, radius: 25 }
+      //       ) &&
+      //       !collisionWithPlayer
+      //     ) {
+      //       collisionWithPlayer = true;
+      //     }
+      //   });
+      // } else {
+      //   translateZPrediction(this.ownPlayer.model.quaternion, this.velocity, this.ownPlayer.model.position)
+      //   this.ownPlayer.model.translateZ(this.velocity);
+      //   console.log("NORMAL: ",(this.ownPlayer.model.position))
+      // }
+
+      // if (collisionWithPlayer) {
+      //   this.ownPlayer.model.position.set(
+      //     this.ownPlayer.lastPositon.x,
+      //     this.ownPlayer.lastPositon.y,
+      //     this.ownPlayer.lastPositon.z
+      //   );
+      // } else {
+      //   this.ownPlayer.lastPositon = { ...this.ownPlayer.model.position };
+      //   this.ownPlayer.model.translateZ(this.velocity);
+      // }
+
+            if (this.players.length > 0) {
+       
         this.players.forEach((player) => {
           if (
-            areSpheresCollided(
+            !areSpheresCollided(
               { ...player.model.position, radius: 25 },
-              { ...this.ownPlayer.model.position, radius: 25 }
-            ) &&
-            !collisionWithPlayer
+              { ...translateZPrediction({...this.ownPlayer.model.quaternion}, this.velocity, {...this.ownPlayer.model.position}), radius: 25 }
+            )
           ) {
-            collisionWithPlayer = true;
+            console.log("NOOOOOOOOO COLLISON WITH PLAYER")
+            console.log("PREDICT: ",translateZPrediction({...this.ownPlayer.model.quaternion}, this.velocity, {...this.ownPlayer.model.position}))
+            this.ownPlayer.model.translateZ(this.velocity);
+            console.log("POSITION: ",this.ownPlayer.model.position)
+          }else {
+            console.log("COLLISON WITH PLAYER")
           }
         });
       } else {
         this.ownPlayer.model.translateZ(this.velocity);
+        //console.log("NORMAL: ",(this.ownPlayer.model.position))
       }
 
-      if (collisionWithPlayer) {
-        this.ownPlayer.model.position.set(
-          this.ownPlayer.lastPositon.x,
-          this.ownPlayer.lastPositon.y,
-          this.ownPlayer.lastPositon.z
-        );
-      } else {
-        this.ownPlayer.lastPositon = { ...this.ownPlayer.model.position };
-        this.ownPlayer.model.translateZ(this.velocity);
-      }
 
       //COLLISION WITH WALLS
       let movementArea = 460;
