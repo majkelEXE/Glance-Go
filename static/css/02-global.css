@@ -28,6 +28,21 @@ body {
   height: 100%;
 }
 
+#historyReference {
+  text-decoration: none;
+  color: var(--main-color);
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: calc(var(--main-font-size) * 3);
+  transition: 0.25s transform, 0.25s font-size;
+}
+
+#historyReference:hover {
+  transform: rotate(0.5turn);
+  font-size: calc(var(--main-font-size) * 4);
+}
+
 /* ROOT */
 
 /* #root {

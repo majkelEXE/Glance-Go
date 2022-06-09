@@ -3,7 +3,7 @@ import RoomModel from "./gameComponents/RoomModel.js";
 import Symbol from "./gameComponents/Symbol.js";
 import { areSpheresCollided, isPointInsideSphere } from "./libs/collisions.js";
 import translateZPrediction from "./libs/translateZPredicition.js";
-import { net, ui } from "./Main.js";
+import { game, net, ui } from "./Main.js";
 
 class Game {
   constructor() {
@@ -131,7 +131,9 @@ class Game {
 
             net.sendMessage(this.message);
 
-            this.ownPlayer.startCooldownProtection();
+            if (game.cardsLeft != 1) {
+              this.ownPlayer.startCooldownProtection();
+            }
           } else {
             //HANDLE COOLDOWN
             if (
