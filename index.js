@@ -8,13 +8,11 @@ var url = "mongodb://localhost:27017/";
 
 console.log(__dirname);
 
-var CardSetter = require("./scripts/CardSetter");
+var CardSetter = require("./scripts/cardSetter");
 var Card = require("./schemes/Card");
 var Client = require("./schemes/Client");
 var Room = require("./schemes/Room");
 var Owner = require("./schemes/Owner");
-
-app.use("/scripts", CardSetter);
 
 var defaultPlayersCoordinates = require("./data/defaultPlayersCoordinates.json");
 var symbolsCoordinates = require("./data/symbolsCoordinates.json");
