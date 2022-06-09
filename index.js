@@ -231,19 +231,21 @@ wss.on("connection", function connection(ws) {
         })[0];
         // console.log(requestedRoom);
 
-        data = JSON.stringify({
-          message: "updatePlayer",
-          playerInfo: data.playerInfo,
-        });
+        if (requestedRoom) {
+          data = JSON.stringify({
+            message: "updatePlayer",
+            playerInfo: data.playerInfo,
+          });
 
-        requestedRoom.clients.forEach((client) => {
-          if (
-            client.wsClient.readyState === ws.OPEN &&
-            client.wsClient !== ws
-          ) {
-            client.wsClient.send(data, { binary: isBinary });
-          }
-        });
+          requestedRoom.clients.forEach((client) => {
+            if (
+              client.wsClient.readyState === ws.OPEN &&
+              client.wsClient !== ws
+            ) {
+              client.wsClient.send(data, { binary: isBinary });
+            }
+          });
+        }
 
         break;
       case "leaveRoom":
@@ -253,21 +255,23 @@ wss.on("connection", function connection(ws) {
           (room) => room.roomName == data.roomName
         )[0];
 
-        requestedRoom.removeClient(data.clientName);
+        if (requestedRoom) {
+          requestedRoom.removeClient(data.clientName);
 
-        if (requestedRoom.clients.length > 0) {
-          let refreshData = requestedRoom.getRefreshedClientsMessage();
+          if (requestedRoom.clients.length > 0) {
+            let refreshData = requestedRoom.getRefreshedClientsMessage();
 
-          requestedRoom.clients.forEach((client) => {
-            if (client.wsClient.readyState === ws.OPEN) {
-              client.wsClient.send(refreshData, { binary: isBinary });
-            }
-          });
-        } else {
-          rooms = rooms.filter((room) => room.roomName != data.roomName);
+            requestedRoom.clients.forEach((client) => {
+              if (client.wsClient.readyState === ws.OPEN) {
+                client.wsClient.send(refreshData, { binary: isBinary });
+              }
+            });
+          } else {
+            rooms = rooms.filter((room) => room.roomName != data.roomName);
+          }
+
+          console.log(requestedRoom);
         }
-
-        console.log(requestedRoom);
 
         break;
       case "scoredPoint":
@@ -275,30 +279,44 @@ wss.on("connection", function connection(ws) {
           (room) => room.roomName == data.roomName
         )[0];
 
-        if (requestedRoom.roundNumber == data.roundNumber) {
-          ws.send(JSON.stringify({ message: "pointScored" }));
+        console.log(requestedRoom);
 
-          requestedRoom.roundNumber += 1;
-
-          requestedRoom.clients.forEach((client) => {
-            if (client.clientName == data.playerName) {
-              client.points += 1;
-              return;
-            }
-          });
-
+        if (requestedRoom) {
           if (requestedRoom.cards.length > 0) {
-            data = JSON.stringify({
-              message: "updateMainCard",
-              mainCard: requestedRoom.cards[0],
-              roundNumber: requestedRoom.roundNumber,
-              cardsLeft: requestedRoom.cards.length - 1,
-              clients: requestedRoom.clients.map((client) => {
-                return { clientName: client.clientName, points: client.points };
-              }),
+            if (requestedRoom.roundNumber == data.roundNumber) {
+              ws.send(JSON.stringify({ message: "pointScored" }));
+
+              requestedRoom.roundNumber += 1;
+
+              requestedRoom.clients.forEach((client) => {
+                if (client.clientName == data.playerName) {
+                  client.points += 1;
+                  return;
+                }
+              });
+
+              data = JSON.stringify({
+                message: "updateMainCard",
+                mainCard: requestedRoom.cards[0],
+                roundNumber: requestedRoom.roundNumber,
+                cardsLeft: requestedRoom.cards.length - 1,
+                clients: requestedRoom.clients.map((client) => {
+                  return {
+                    clientName: client.clientName,
+                    points: client.points,
+                  };
+                }),
+              });
+              requestedRoom.cards.splice(0, 1);
+            }
+
+            requestedRoom.clients.forEach((client) => {
+              if (client.wsClient.readyState === ws.OPEN) {
+                client.wsClient.send(data, { binary: isBinary });
+              }
             });
-            requestedRoom.cards.splice(0, 1);
           } else {
+            console.log("SEND");
             var userScoresSever = new Map();
 
             requestedRoom.clients.forEach((client) => {
@@ -314,13 +332,19 @@ wss.on("connection", function connection(ws) {
               message: "gameFinished",
               userScores: Array.from(userScoresSever.entries()),
             });
-          }
 
-          requestedRoom.clients.forEach((client) => {
-            if (client.wsClient.readyState === ws.OPEN) {
-              client.wsClient.send(data, { binary: isBinary });
-            }
-          });
+            requestedRoom.clients.forEach((client) => {
+              if (client.wsClient.readyState === ws.OPEN) {
+                client.wsClient.send(data, { binary: isBinary });
+              }
+            });
+
+            rooms = rooms.filter((room) => {
+              return room.roomName != requestedRoom.roomName;
+            });
+
+            console.log(rooms);
+          }
         }
 
         break;

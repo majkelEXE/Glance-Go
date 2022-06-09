@@ -74,7 +74,7 @@ class Game {
     this.mainCard = [];
     this.symbols = [];
     this.roundNumber;
-    this.cardsLeft = 0;
+    this.cardsLeft = null;
     //
     this.renderMap();
     // this.moveUpDown = 0; // 0 - none, 1 - up, -1 - down
@@ -122,6 +122,7 @@ class Game {
               playerName: net.player,
               roundNumber: this.roundNumber,
             };
+
             net.sendMessage(this.message);
 
             this.ownPlayer.startCooldownProtection();
