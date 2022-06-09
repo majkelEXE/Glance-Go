@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/01-variables.css" />
+    <link rel="stylesheet" href="css/02-global.css" />
+    <link rel="stylesheet" href="css/07-history.css" />
+    <title>History</title>
+  </head>
+  <body>
+    <div id="podiumContainer"></div>
+    <div id="roomsContainer">
+      <input type="text" placeholder="Search room or player" id="filter" />
+      <div id="rooms"></div>
+    </div>
+  </body>
+  <script>
+    let rooms = [];
+    let roomsElement = document.getElementById("rooms");
+    let podiumElement = document.getElementById("podiumContainer");
+
+    function renderRooms(phrase) {
+      roomsElement.innerHTML = "";
+
+      rooms
+        .filter(
+          (room) =>
+            room.name.toLowerCase().includes(phrase) ||
+            room.userScores.filter((score) =>
+              score[0].toLowerCase().includes(phrase)
+            ).length > 0
+        )
+        .forEach((room) => {
+          roomsElement.innerHTML += `<div id="room"><h2>${
+            room.name
+          }</h2><div id="roomScores">${room.userScores
+            .map((score) => {
+              return `<div><div id='name'>${score[0]}</div><div id="score">${score[1]}</div></div>`;
+            })
+            .join("")}</div></div>`;
+        });
+    }
+
+    document.getElementById("filter").addEventListener("input", (e) => {
+      renderRooms(e.target.value.toLowerCase());
+    });
+
+    async function getRooms() {
+      rooms = await (await fetch("getHistory")).json();
+
+      let scores = {};
+
+      rooms.forEach((room) => {
+        room.userScores.forEach((score) => {
+          scores[score[0]] = (scores[score[0]] ?? 0) + score[1];
+        });
+      });
+
+      Object.entries(scores)
+        .sort((a, b) => b[1] - a[1])
+        .splice(0, 3)
+        .forEach((score, i) => {
+          podiumElement.innerHTML += `<div><p class="podiumTitle">TOP ${
+            i + 1
+          }</p><p> ${score[0]}: ${score[1]}</p></div>`;
+        });
+
+      renderRooms("");
+    }
+
+    getRooms();
+  </script>
+</html>

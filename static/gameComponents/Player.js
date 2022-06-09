@@ -80,9 +80,12 @@ export default class Player {
   startCooldownProtection = () => {
     this.coolDownProtected = true;
 
+    ui.showProtection();
+
     this.coolDownProtectionTimeout = setTimeout(() => {
       // console.log("PROTECTION EXPIRED");
       this.coolDownProtected = false;
+      ui.hideProtection();
     }, 3000);
   };
 }

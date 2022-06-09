@@ -1,0 +1,95 @@
+body {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin: 100px 300px;
+}
+
+#podiumContainer {
+  background-color: var(--main-color);
+  color: white;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+  padding: 25px;
+  border-radius: 25px;
+  box-shadow: 0px 10px 0px 0px var(--dark-main-color);
+  margin-bottom: 100px;
+}
+
+#podiumContainer > div {
+  text-align: center;
+  font-size: 30px;
+}
+
+#podiumContainer > div:nth-child(1) > p:nth-child(2)::before {
+  content: "👑";
+}
+
+.podiumTitle {
+  font-size: 50px;
+  margin-bottom: 25px;
+}
+
+#roomsContainer {
+  background-color: var(--main-color);
+  color: white;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 25px;
+  border-radius: 25px;
+  box-shadow: 0px 10px 0px 0px var(--dark-main-color);
+}
+
+#roomsContainer > input {
+  background-color: white;
+  color: var(--dark-main-color);
+  font-weight: bold;
+  padding: 15px;
+  border-radius: 25px;
+  text-align: center;
+  box-shadow: inset 0px 5px 0px 0px #dbdbdb;
+}
+
+#rooms {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#room {
+  background-color: white;
+  color: var(--dark-main-color);
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 200px;
+  padding: 25px;
+  margin: 25px;
+  border-radius: 25px;
+  box-shadow: inset 0px 10px 0px 0px #dbdbdb;
+}
+
+#room > h2 {
+  font-size: 25px;
+  margin-bottom: 25px;
+}
+
+#roomScores {
+  width: 100%;
+}
+
+#roomScores > div {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  border-bottom: 2px solid var(--dark-main-color);
+  margin-bottom: 10px;
+}

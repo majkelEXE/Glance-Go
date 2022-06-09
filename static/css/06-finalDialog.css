@@ -43,6 +43,7 @@
   box-shadow: 0px 6px 0px 0px var(--dark-button-color);
   transform: translateY(-2px);
   transition: 0.05s ease-in;
+  font-weight: bold;
 }
 
 #finalDialog .settingsDiv button:hover {

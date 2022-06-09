@@ -30,22 +30,28 @@ const server = app.listen(PORT, function () {
     dbo.listCollections().toArray(function (err, collections) {
       console.log(collections.length);
       if (collections.length == 0) {
-        dbo.createCollection("defaultPlayersCoordinates", function (err, res) {
+        dbo.createCollection("history", function (err, res) {
           if (err) throw err;
-          dbo.createCollection("symbolsCoordinates", function (err, res) {
-            if (err) throw err;
-            dbo
-              .collection("defaultPlayersCoordinates")
-              .insertMany(defaultPlayersCoordinates, function (err, res) {
+          dbo.createCollection(
+            "defaultPlayersCoordinates",
+            function (err, res) {
+              if (err) throw err;
+              dbo.createCollection("symbolsCoordinates", function (err, res) {
                 if (err) throw err;
                 dbo
-                  .collection("symbolsCoordinates")
-                  .insertMany(symbolsCoordinates, function (err, res) {
+                  .collection("defaultPlayersCoordinates")
+                  .insertMany(defaultPlayersCoordinates, function (err, res) {
                     if (err) throw err;
-                    db.close();
+                    dbo
+                      .collection("symbolsCoordinates")
+                      .insertMany(symbolsCoordinates, function (err, res) {
+                        if (err) throw err;
+                        db.close();
+                      });
                   });
               });
-          });
+            }
+          );
         });
       } else {
         console.log("Dane znajdowały sie juz w bazie");
@@ -185,8 +191,7 @@ wss.on("connection", function connection(ws) {
                             roundNumber: requestedRoom.roundNumber,
                             cardsLeft:
                               requestedRoom.cards.length -
-                              requestedRoom.clients.length -
-                              1,
+                              requestedRoom.clients.length,
                           });
 
                           requestedRoom.clients.forEach((client, i) => {
@@ -282,33 +287,33 @@ wss.on("connection", function connection(ws) {
         console.log(requestedRoom);
 
         if (requestedRoom) {
-          if (requestedRoom.cards.length > 0) {
-            if (requestedRoom.roundNumber == data.roundNumber) {
-              ws.send(JSON.stringify({ message: "pointScored" }));
-
-              requestedRoom.roundNumber += 1;
-
-              requestedRoom.clients.forEach((client) => {
-                if (client.clientName == data.playerName) {
-                  client.points += 1;
-                  return;
-                }
-              });
-
-              data = JSON.stringify({
-                message: "updateMainCard",
-                mainCard: requestedRoom.cards[0],
-                roundNumber: requestedRoom.roundNumber,
-                cardsLeft: requestedRoom.cards.length - 1,
-                clients: requestedRoom.clients.map((client) => {
-                  return {
-                    clientName: client.clientName,
-                    points: client.points,
-                  };
-                }),
-              });
-              requestedRoom.cards.splice(0, 1);
+          requestedRoom.clients.forEach((client) => {
+            if (client.clientName == data.playerName) {
+              client.points += 1;
+              return;
             }
+          });
+
+          if (requestedRoom.cards.length > 0) {
+            ws.send(JSON.stringify({ message: "pointScored" }));
+
+            requestedRoom.roundNumber += 1;
+
+            data = JSON.stringify({
+              message: "updateMainCard",
+              mainCard: requestedRoom.cards[0],
+              roundNumber: requestedRoom.roundNumber,
+              cardsLeft: requestedRoom.cards.length,
+              clients: requestedRoom.clients.map((client) => {
+                return {
+                  clientName: client.clientName,
+                  points: client.points,
+                };
+              }),
+            });
+            requestedRoom.cards.splice(0, 1);
+
+            console.log(requestedRoom.cards);
 
             requestedRoom.clients.forEach((client) => {
               if (client.wsClient.readyState === ws.OPEN) {
@@ -316,7 +321,6 @@ wss.on("connection", function connection(ws) {
               }
             });
           } else {
-            console.log("SEND");
             var userScoresSever = new Map();
 
             requestedRoom.clients.forEach((client) => {
@@ -326,7 +330,7 @@ wss.on("connection", function connection(ws) {
             userScoresSever = new Map(
               [...userScoresSever].sort((a, b) => a[1] - b[1])
             );
-            console.log(userScoresSever);
+            //console.log(userScoresSever);
 
             data = JSON.stringify({
               message: "gameFinished",
@@ -337,6 +341,11 @@ wss.on("connection", function connection(ws) {
               if (client.wsClient.readyState === ws.OPEN) {
                 client.wsClient.send(data, { binary: isBinary });
               }
+            });
+
+            saveGame({
+              name: requestedRoom.roomName,
+              userScores: Array.from(userScoresSever.entries()),
             });
 
             rooms = rooms.filter((room) => {
@@ -351,3 +360,48 @@ wss.on("connection", function connection(ws) {
     }
   });
 });
+
+function saveGame(gameData) {
+  MongoClient.connect(url, function (err, db) {
+    if (err) throw err;
+    var dbo = db.db("GlanceAndGo");
+    dbo.collection("history").insert(gameData, function (err, result) {
+      if (err) throw err;
+
+      dbo
+        .collection("symbolsCoordinates")
+        .findOne({ numberOfSymbols: numberOfSymbols }, (err, res) => {
+          // console.log(res);
+          if (err) throw err;
+
+          db.close();
+        });
+    });
+  });
+}
+function getGamesHistory(res) {
+  MongoClient.connect(url, function (err, db) {
+    if (err) throw err;
+
+    var dbo = db.db("GlanceAndGo");
+    dbo
+      .collection("history")
+      .find()
+      .toArray(function (err, items) {
+        if (err) console.log(err);
+
+        res.send(items);
+      });
+  });
+}
+
+app.get("/getHistory", async (req, res) => {
+  getGamesHistory(res);
+});
+
+app.get("/history", async (req, res) => {
+  res.sendFile(__dirname + "/static/history.html");
+});
+
+//test
+//tewst2

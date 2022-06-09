@@ -116,7 +116,7 @@ class Ui {
     cancelAnimationFrame(lobbyModel.id);
     document.getElementsByTagName(
       "body"
-    )[0].innerHTML = `<div id='gameMenu'><div id='ownCard'></div><div id='gameInfo'><div id='usersContainer'><p>USERS</p><div id='users'></div></div><div id='cardsLeftContainer'><p>CARDS LEFT</p><div id='cardsLeft'></div></div><div id='coolDownContainer'><p>COOLDOWN</p><div id='coolDown'></div></div></div></div><div id='root'></div>`;
+    )[0].innerHTML = `<div id='gameMenu'><div id='ownCard'></div><div id='gameInfo'><div id='usersContainer'><p>USERS</p><div id='users'></div></div><div id='cardsLeftContainer'><p>CARDS LEFT</p><div id='cardsLeft'></div></div><div id='coolDownContainer'><p>COOLDOWN</p><div id='coolDown'></div><div id='protectionCooldown'></div></div></div></div><div id='root'></div>`;
 
     initializeGame();
   };
@@ -143,6 +143,14 @@ class Ui {
     document.getElementById("coolDown").style.display = "none";
   };
 
+  showProtection = () => {
+    document.getElementById("protectionCooldown").style.display = "flex";
+  };
+
+  hideProtection = () => {
+    document.getElementById("protectionCooldown").style.display = "none";
+  };
+
   updateScoreBoard = (clients) => {
     let usersString = "";
 
@@ -162,9 +170,7 @@ class Ui {
   };
 
   showFinalDialog = (userScores) => {
-    document.getElementsByTagName(
-      "body"
-    )[0].innerHTML += `<div id="finalDialog">
+    document.getElementsByTagName("body")[0].innerHTML = `<div id="finalDialog">
     <h1 class="gameTitleMenu">GAME FINISHED!</h1>
     <div class="scoreDiv"></div>
     <div class="settingsDiv">
