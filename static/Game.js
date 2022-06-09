@@ -86,6 +86,8 @@ class Game {
     this.camera.updateProjectionMatrix();
     this.renderer.render(this.scene, this.camera);
 
+    // console.log(document.getElementById("gameMenu"));
+
     //console.log(this.ownPlayer);
 
     let delta = this.clock.getDelta();
@@ -125,8 +127,6 @@ class Game {
 
             this.ownPlayer.startCooldownProtection();
           } else {
-            console.log("COOLING");
-
             //HANDLE COOLDOWN
             if (
               this.ownPlayer.cooledDown &&
@@ -210,8 +210,6 @@ class Game {
         this.ownPlayer.model.translateZ(this.velocity);
         //console.log("NORMAL: ",(this.ownPlayer.model.position))
       }
-
-      console.log(collisionWithPlayer);
 
       if (!collisionWithPlayer) {
         this.ownPlayer.model.translateZ(this.velocity);
@@ -302,10 +300,8 @@ class Game {
   };
 
   renderSymbols = (symbolsPositions, mainCard) => {
-    console.log(symbolsPositions);
     symbolsPositions.forEach((sybmolCoords, i) => {
       const symbol = new Symbol(mainCard[i]);
-      console.log(sybmolCoords.symbolRotateY);
       symbol.position.set(
         sybmolCoords.symbolX,
         sybmolCoords.symbolY,
@@ -334,8 +330,6 @@ class Game {
     this.scene.add(light);
 
     loader.load("./assets/models/map/scene.gltf", function (object) {
-      console.log(object);
-
       object.scene.traverse(function (child) {
         // tu można wykonać dowolną operację dla każdego mesha w modelu
         // if (child.isMesh) {
@@ -365,8 +359,6 @@ class Game {
       const loader = new THREE.FBXLoader();
 
       loader.load("./assets/models/source/player.fbx", function (object) {
-        console.log(object);
-
         // object.scale.set(0.5, 0.5, 0.5);
         // object.position.y = -50;
 
@@ -443,8 +435,6 @@ class Game {
 
   updateOtherPlayer = (playerData) => {
     let test = this.players;
-
-    console.log(playerData);
 
     var playerToUpdate = test.filter((player) => {
       return player.name == playerData.playerName;

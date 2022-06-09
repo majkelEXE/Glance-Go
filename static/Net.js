@@ -40,8 +40,6 @@ class Net {
     this.socket.addEventListener("message", function (event) {
       let respond = JSON.parse(event.data);
 
-      console.log(respond);
-
       switch (respond.message) {
         case "nameExist":
           alert(
@@ -101,9 +99,10 @@ class Net {
           ui.updateScoreBoard(respond.clients);
           break;
         case "gameFinished":
-          console.log("AAAA");
-          alert("GRA SKONCZONA!11!!111");
-          location.reload();
+          console.log(respond);
+          ui.showFinalDialog(respond.userScores);
+          // alert("GRA SKONCZONA!11!!111");
+          // location.reload();
           break;
       }
     });

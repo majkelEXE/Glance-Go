@@ -81,7 +81,7 @@ export default class Player {
     this.coolDownProtected = true;
 
     this.coolDownProtectionTimeout = setTimeout(() => {
-      console.log("PROTECTION EXPIRED");
+      // console.log("PROTECTION EXPIRED");
       this.coolDownProtected = false;
     }, 3000);
   };
