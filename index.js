@@ -4,7 +4,9 @@ var app = express();
 const PORT = process.env.PORT || 3000;
 var path = require("path");
 const MongoClient = require("mongodb").MongoClient;
-var url = "mongodb://localhost:27017/";
+//var url = "mongodb://localhost:27017/";
+var url =
+  "mongodb+srv://test:test@glanceandgo.ac4ekgz.mongodb.net/?retryWrites=true&w=majority";
 
 console.log(__dirname);
 
@@ -26,7 +28,7 @@ app.use(express.static("static"));
 
 const server = app.listen(PORT, function () {
   console.log("http://localhost:" + PORT);
-  MongoClient.connect(url + "GlanceAndGo", function (err, db) {
+  MongoClient.connect(url, function (err, db) {
     if (err) throw err;
     var dbo = db.db("GlanceAndGo");
     dbo.listCollections().toArray(function (err, collections) {
