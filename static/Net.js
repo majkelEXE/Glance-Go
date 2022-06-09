@@ -2,7 +2,9 @@ import { ui, game } from "./Main.js";
 
 class Net {
   constructor() {
-    this.socket = new WebSocket("ws://localhost:3000");
+    this.socket = new WebSocket(
+      "ws" + window.location.href.slice(window.location.href.indexOf(":"))
+    );
     this.players = [];
     this.player = null;
     this.room = null;
@@ -88,10 +90,12 @@ class Net {
           game.updateOtherPlayer(respond.playerInfo);
           break;
         case "pointScored":
+          console.log("NET SCORED");
           ui.updateUserCardUI(game.mainCard);
           game.ownCard = game.mainCard;
           break;
         case "updateMainCard":
+          console.log("NET CARDS UPDATE");
           game.mainCard = respond.mainCard;
           game.roundNumber = respond.roundNumber;
           game.cardsLeft = respond.cardsLeft;

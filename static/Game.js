@@ -114,7 +114,13 @@ class Game {
             { ...symbol.position, radius: symbol.radius }
           )
         ) {
-          if (this.ownCard.includes(symbol.name) && this.ownPlayer.cooledDown) {
+          if (
+            this.ownCard.includes(symbol.name) &&
+            this.ownPlayer.cooledDown &&
+            !this.ownPlayer.coolDownProtected
+          ) {
+            console.log("SYMBOL CORRECT");
+
             // ui.updateUserCardUI(this.mainCard);
             this.message = {
               type: "scoredPoint",
