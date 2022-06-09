@@ -7,7 +7,12 @@
     <title>Document</title>
   </head>
   <body>
-    <script>
+    <div id="test"></div>
+    <script defer>
+      document.getElementById(
+        "test"
+      ).innerHTML = `<button onClick="location.reload()">Reset</button>`;
+
       var partCount = 7;
 
       var part1 = (2 * Math.PI) / partCount;

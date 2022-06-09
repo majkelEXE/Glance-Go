@@ -328,7 +328,7 @@ wss.on("connection", function connection(ws) {
             });
 
             userScoresSever = new Map(
-              [...userScoresSever].sort((a, b) => a[1] - b[1])
+              [...userScoresSever].sort((a, b) => b[1] - a[1])
             );
             //console.log(userScoresSever);
 

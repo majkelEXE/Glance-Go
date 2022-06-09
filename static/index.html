@@ -19,6 +19,14 @@
       rel="stylesheet"
     />
     <!--  -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!--  -->
     <title>Document</title>
     <script src="./libs/three.js"></script>
     <script src="./libs/fflate.min.js"></script>
@@ -28,6 +36,9 @@
     <script type="module" src="./Main.js"></script>
   </head>
   <body>
+    <a id="historyReference" href="/history"
+      ><i class="fa-solid fa-circle-h"></i
+    ></a>
     <div id="joinRoomMenu">
       <h1 class="gameTitleMenu">GLANCE&GO</h1>
       <div class="settingsLabel">
@@ -45,7 +56,9 @@
     </div>
     <div id="manageRoomMenu">
       <div id="titleGameContainer">
-        <h1 class="gameTitleMenu">GLANCE&GO</h1>
+        <h1 class="gameTitleMenu">
+          GLANCE&GO<i class="fa-solid fa-circle-h"></i>
+        </h1>
       </div>
       <div id="queueInterface">
         <div id="usersInRoomSection">

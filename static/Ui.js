@@ -174,7 +174,7 @@ class Ui {
     <h1 class="gameTitleMenu">GAME FINISHED!</h1>
     <div class="scoreDiv"></div>
     <div class="settingsDiv">
-      <button id="createRoom">Graj ponownie!</button>
+      <button id="createRoom" onclick="location.reload()">Graj ponownie!</button>
     </div>
     </div>`;
 
