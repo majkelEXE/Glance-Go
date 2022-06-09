@@ -6,6 +6,8 @@ var path = require("path");
 const MongoClient = require("mongodb").MongoClient;
 var url = "mongodb://localhost:27017/";
 
+console.log(__dirname);
+
 var CardSetter = require("./scripts/CardSetter");
 var Card = require("./schemes/Card");
 var Client = require("./schemes/Client");
