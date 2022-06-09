@@ -402,3 +402,5 @@ app.get("/getHistory", async (req, res) => {
 app.get("/history", async (req, res) => {
   res.sendFile(__dirname + "/static/history.html");
 });
+
+//test
