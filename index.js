@@ -4,10 +4,9 @@ var app = express();
 const PORT = process.env.PORT || 3000;
 var path = require("path");
 const MongoClient = require("mongodb").MongoClient;
-var url = "mongodb://localhost:27017/";
-//var url ="mongodb+srv://test:test@glanceandgo.ac4ekgz.mongodb.net/?retryWrites=true&w=majority";
-
-console.log(__dirname);
+require("dotenv").config();
+console.log(process.env.MONGOURI);
+var url = process.env.MONGOURI;
 
 var CardSetter = require("./scripts/cardSetter");
 var Card = require("./schemes/Card");
