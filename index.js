@@ -5,7 +5,6 @@ const PORT = process.env.PORT || 3000;
 var path = require("path");
 const MongoClient = require("mongodb").MongoClient;
 require("dotenv").config();
-console.log(process.env.MONGOURI);
 var url = process.env.MONGOURI;
 
 var CardSetter = require("./scripts/cardSetter");

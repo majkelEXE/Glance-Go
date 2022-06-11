@@ -170,6 +170,8 @@ class Ui {
   };
 
   showFinalDialog = (userScores) => {
+    cancelAnimationFrame(game.id);
+
     document.getElementsByTagName("body")[0].innerHTML = `<div id="finalDialog">
     <h1 class="gameTitleMenu">GAME FINISHED!</h1>
     <div class="scoreDiv"></div>
