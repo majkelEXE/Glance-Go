@@ -1,12 +1,14 @@
 const ws = require("ws");
 var express = require("express");
 var app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 var path = require("path");
 const MongoClient = require("mongodb").MongoClient;
-var url = "mongodb://localhost:27017/";
+require("dotenv").config();
+console.log(process.env.MONGOURI);
+var url = process.env.MONGOURI;
 
-var CardSetter = require("./scripts/CardSetter");
+var CardSetter = require("./scripts/cardSetter");
 var Card = require("./schemes/Card");
 var Client = require("./schemes/Client");
 var Room = require("./schemes/Room");
@@ -24,7 +26,7 @@ app.use(express.static("static"));
 
 const server = app.listen(PORT, function () {
   console.log("http://localhost:" + PORT);
-  MongoClient.connect(url + "GlanceAndGo", function (err, db) {
+  MongoClient.connect(url, function (err, db) {
     if (err) throw err;
     var dbo = db.db("GlanceAndGo");
     dbo.listCollections().toArray(function (err, collections) {
