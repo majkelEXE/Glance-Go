@@ -365,7 +365,6 @@ class Game {
         object.scene.position.setY(-1000);
         object.scene.position.setZ(0);
 
-        console.log(object);
         // dodanie do sceny
         self.scene.add(object.scene);
       });
