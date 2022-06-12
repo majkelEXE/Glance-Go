@@ -80,7 +80,6 @@ body {
 
 #room > h2 {
   font-size: 25px;
-  margin-bottom: 25px;
 }
 
 #roomScores {
@@ -93,4 +92,10 @@ body {
   text-align: center;
   border-bottom: 2px solid var(--dark-main-color);
   margin-bottom: 10px;
+}
+
+#date {
+  text-align: center;
+  font-size: 10px;
+  margin-bottom: 25px;
 }

@@ -351,6 +351,7 @@ wss.on("connection", function connection(ws) {
 
             saveGame({
               name: requestedRoom.roomName,
+              date: new Date().toLocaleString(),
               userScores: Array.from(userScoresSever.entries()),
             });
 

@@ -17,7 +17,7 @@ class Game {
     this.camera.position.set(Math.sin(500), 200, Math.cos(-500));
     this.camera.lookAt(this.scene.position);
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
-    this.renderer.setClearColor("#89e0e8");
+    this.renderer.setClearColor("#a6d5ff");
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     document.getElementById("root").append(this.renderer.domElement);
 
@@ -32,11 +32,11 @@ class Game {
       false
     );
 
-    const axesHelper = new THREE.AxesHelper(1000);
-    this.scene.add(axesHelper);
+    // const axesHelper = new THREE.AxesHelper(1000);
+    // this.scene.add(axesHelper);
 
-    const axesHelper2 = new THREE.AxesHelper(-1000);
-    this.scene.add(axesHelper2);
+    // const axesHelper2 = new THREE.AxesHelper(-1000);
+    // this.scene.add(axesHelper2);
 
     this.ownPlayer = undefined;
     this.players = [];
@@ -216,13 +216,29 @@ class Game {
             collisionWithPlayer = true;
           }
         });
-      } else {
-        this.ownPlayer.model.translateZ(this.velocity);
-        //console.log("NORMAL: ",(this.ownPlayer.model.position))
       }
 
       if (!collisionWithPlayer) {
-        this.ownPlayer.model.translateZ(this.velocity);
+        if (
+          areSpheresCollided(
+            {
+              ...translateZPrediction(
+                { ...this.ownPlayer.model.quaternion },
+                this.velocity,
+                { ...this.ownPlayer.model.position }
+              ),
+              radius: 25,
+            },
+            {
+              x: 0,
+              y: 0,
+              z: 0,
+              radius: 450,
+            }
+          )
+        ) {
+          this.ownPlayer.model.translateZ(this.velocity);
+        }
       }
 
       // console.log(
@@ -236,24 +252,25 @@ class Game {
       // console.log("POSITION: ", this.ownPlayer.model.position);
 
       //COLLISION WITH WALLS
-      let movementArea = 460;
 
-      if (this.ownPlayer.model.position.x > movementArea) {
-        this.ownPlayer.model.position.setX(movementArea);
-      }
+      // let movementArea = 460;
 
-      if (this.ownPlayer.model.position.x < -movementArea) {
-        this.ownPlayer.model.position.setX(-movementArea);
-      }
+      // if (this.ownPlayer.model.position.x > movementArea) {
+      //   this.ownPlayer.model.position.setX(movementArea);
+      // }
 
-      if (this.ownPlayer.model.position.z > movementArea) {
-        this.ownPlayer.model.position.setZ(movementArea);
-      }
+      // if (this.ownPlayer.model.position.x < -movementArea) {
+      //   this.ownPlayer.model.position.setX(-movementArea);
+      // }
 
-      if (this.ownPlayer.model.position.z < -movementArea) {
-        this.ownPlayer.model.position.setZ(-movementArea);
-      }
-      //
+      // if (this.ownPlayer.model.position.z > movementArea) {
+      //   this.ownPlayer.model.position.setZ(movementArea);
+      // }
+
+      // if (this.ownPlayer.model.position.z < -movementArea) {
+      //   this.ownPlayer.model.position.setZ(-movementArea);
+      // }
+      // //
 
       if (this.keys.a) this.rotateSpeed = 0.04;
       else if (this.keys.d) this.rotateSpeed = -0.04;
@@ -335,21 +352,19 @@ class Game {
     let self = this;
     const loader = new THREE.GLTFLoader();
 
-    const light = new THREE.PointLight(0xffffff, 0.1);
-    light.position.set(0, 0, 0);
-    this.scene.add(light);
+    // const light = new THREE.PointLight(0xffffff, 0.1);
+    // light.position.set(0, 0, 0);
+    // this.scene.add(light);
 
     loader.load("./assets/models/map/scene.gltf", function (object) {
       object.scene.traverse(function (child) {
         // tu można wykonać dowolną operację dla każdego mesha w modelu
-        // if (child.isMesh) {
-        //   console.log(child);
-        // }
+        if (child.material) child.material.metalness = 0;
 
-        object.scene.scale.set(75, 75, 75);
-        object.scene.position.setY(-1500);
-        object.scene.position.setZ(1000);
-        object.metalness = 1;
+        object.scene.scale.set(15, 15, 15);
+        object.scene.position.setY(-1000);
+        object.scene.position.setZ(0);
+
         // dodanie do sceny
         self.scene.add(object.scene);
       });

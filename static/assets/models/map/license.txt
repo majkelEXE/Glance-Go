@@ -1,11 +1,11 @@
 Model Information:
-* title:	Spring Dream Garden
-* source:	https://sketchfab.com/3d-models/spring-dream-garden-cde53a26240b4026a17f279cc98e062b
-* author:	Kelly Liang (https://sketchfab.com/kellyliang)
+* title:	Cozy Lake
+* source:	https://sketchfab.com/3d-models/cozy-lake-55d48e0250384ed9811c1567fd3fa7fd
+* author:	Christian Lüdeking (https://sketchfab.com/happitack)
 
 Model License:
 * license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
 * requirements:	Author must be credited. Commercial use is allowed.
 
 If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
-This work is based on "Spring Dream Garden" (https://sketchfab.com/3d-models/spring-dream-garden-cde53a26240b4026a17f279cc98e062b) by Kelly Liang (https://sketchfab.com/kellyliang) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+This work is based on "Cozy Lake" (https://sketchfab.com/3d-models/cozy-lake-55d48e0250384ed9811c1567fd3fa7fd) by Christian Lüdeking (https://sketchfab.com/happitack) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
