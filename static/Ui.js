@@ -23,10 +23,6 @@ class Ui {
     });
 
     document.getElementById("startRoom").addEventListener("click", () => {
-      document.getElementById("startRoom").textContent == "Start"
-        ? (document.getElementById("startRoom").innerText = "Stop")
-        : (document.getElementById("startRoom").innerText = "Start");
-
       var message = {
         type: "setReady",
         roomName: net.room,
@@ -171,6 +167,12 @@ class Ui {
 
   showFinalDialog = (userScores) => {
     cancelAnimationFrame(game.id);
+
+    document.getElementsByTagName("body")[0].style.backgroundImage = `url(
+      './../assets/background.png'
+    )`;
+
+    document.getElementsByTagName("body")[0].style.backgroundSize = "cover";
 
     document.getElementsByTagName("body")[0].innerHTML = `<div id="finalDialog">
     <h1 class="gameTitleMenu">GAME FINISHED!</h1>

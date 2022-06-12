@@ -40,7 +40,9 @@
         .forEach((room) => {
           roomsElement.innerHTML += `<div id="room"><h2>${
             room.name
-          }</h2><div id="roomScores">${room.userScores
+          }</h2><span id="date">${
+            room.date
+          }</span><div id="roomScores">${room.userScores
             .map((score) => {
               return `<div><div id='name'>${score[0]}</div><div id="score">${score[1]}</div></div>`;
             })
