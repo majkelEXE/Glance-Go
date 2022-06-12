@@ -58,6 +58,9 @@ class Net {
             "There is an user with this nick name. Please change it to something different."
           );
           break;
+        case "roomAlreadyStarted":
+          alert("The room you try to join is already started.");
+          break;
         case "created":
         case "joined":
           setPlayer(document.getElementById("nickInput").value);
