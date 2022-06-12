@@ -349,6 +349,7 @@ class Game {
         object.scene.scale.set(75, 75, 75);
         object.scene.position.setY(-1500);
         object.scene.position.setZ(1000);
+        object.metalness = 1;
         // dodanie do sceny
         self.scene.add(object.scene);
       });
