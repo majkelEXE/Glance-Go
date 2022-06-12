@@ -75,6 +75,8 @@ class Game {
     this.symbols = [];
     this.roundNumber;
     this.cardsLeft = null;
+
+    this.id;
     //
     this.renderMap();
     // this.moveUpDown = 0; // 0 - none, 1 - up, -1 - down
@@ -82,7 +84,7 @@ class Game {
   }
 
   render = () => {
-    requestAnimationFrame(this.render);
+    this.id = requestAnimationFrame(this.render);
     this.camera.updateProjectionMatrix();
     this.renderer.render(this.scene, this.camera);
 
