@@ -30,7 +30,6 @@ const server = app.listen(PORT, function () {
     if (err) throw err;
     var dbo = db.db("GlanceAndGo");
     dbo.listCollections().toArray(function (err, collections) {
-      console.log(collections.length);
       if (collections.length == 0) {
         dbo.createCollection("history", function (err, res) {
           if (err) throw err;
@@ -55,8 +54,6 @@ const server = app.listen(PORT, function () {
             }
           );
         });
-      } else {
-        console.log("Dane znajdowały sie juz w bazie");
       }
     });
   });
@@ -130,7 +127,6 @@ wss.on("connection", function connection(ws) {
         }
         break;
       case "setReady":
-        console.log(data);
         var requestedRoom = rooms.filter(
           (room) => room.roomName == data.roomName
         )[0];
@@ -263,8 +259,6 @@ wss.on("connection", function connection(ws) {
 
         break;
       case "leaveRoom":
-        console.log(data);
-
         var requestedRoom = rooms.filter(
           (room) => room.roomName == data.roomName
         )[0];
@@ -283,8 +277,6 @@ wss.on("connection", function connection(ws) {
           } else {
             rooms = rooms.filter((room) => room.roomName != data.roomName);
           }
-
-          console.log(requestedRoom);
         }
 
         break;
@@ -292,8 +284,6 @@ wss.on("connection", function connection(ws) {
         var requestedRoom = rooms.filter(
           (room) => room.roomName == data.roomName
         )[0];
-
-        console.log(requestedRoom);
 
         if (requestedRoom) {
           requestedRoom.clients.forEach((client) => {
@@ -321,8 +311,6 @@ wss.on("connection", function connection(ws) {
               }),
             });
             requestedRoom.cards.splice(0, 1);
-
-            console.log(requestedRoom.cards);
 
             requestedRoom.clients.forEach((client) => {
               if (client.wsClient.readyState === ws.OPEN) {
@@ -361,8 +349,6 @@ wss.on("connection", function connection(ws) {
             rooms = rooms.filter((room) => {
               return room.roomName != requestedRoom.roomName;
             });
-
-            console.log(rooms);
           }
         }
 

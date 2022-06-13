@@ -94,12 +94,10 @@ class Net {
           game.updateOtherPlayer(respond.playerInfo);
           break;
         case "pointScored":
-          console.log("NET SCORED");
           ui.updateUserCardUI(game.mainCard);
           game.ownCard = game.mainCard;
           break;
         case "updateMainCard":
-          console.log("NET CARDS UPDATE");
           game.mainCard = respond.mainCard;
           game.roundNumber = respond.roundNumber;
           game.cardsLeft = respond.cardsLeft;
@@ -107,7 +105,6 @@ class Net {
           ui.updateScoreBoard(respond.clients);
           break;
         case "gameFinished":
-          console.log(respond);
           ui.showFinalDialog(respond.userScores);
           // alert("GRA SKONCZONA!11!!111");
           // location.reload();

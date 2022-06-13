@@ -136,8 +136,6 @@ class Game {
             this.ownPlayer.cooledDown &&
             !this.ownPlayer.coolDownProtected
           ) {
-            console.log("SYMBOL CORRECT");
-
             // ui.updateUserCardUI(this.mainCard);
             this.message = {
               type: "scoredPoint",

@@ -197,12 +197,7 @@ class Ui {
     </div>
     </div>`;
 
-    console.log(userScores);
-
     userScores.forEach((userScore, i) => {
-      console.log(userScore);
-      console.log(userScore[0]);
-      console.log(userScore[1]);
       document.querySelector(".scoreDiv").innerHTML += `
           <div class="playerScoreContainer">
             <div class="playerScoreContainerNick">${userScore[0]}</div>

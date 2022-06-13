@@ -50,7 +50,6 @@ export default class Player {
       this.model.add(text);
     });
 
-    console.log(this.model);
     // this.model.add(
     //   new THREE.Mesh(
     //     new THREE.TextGeometry("DUPA", {
@@ -76,8 +75,6 @@ export default class Player {
 
     this.coolDownProtected = false;
     this.coolDownProtectionTimeout = null;
-
-    console.log(this);
 
     this.playRestingAnimation();
   }
@@ -108,7 +105,6 @@ export default class Player {
     ui.showCooldown();
 
     this.coolDownTimeout = setTimeout(() => {
-      console.log("COOLED");
       this.cooledDown = true;
       ui.hideCooldown();
     }, 5000);
@@ -120,7 +116,6 @@ export default class Player {
     ui.showProtection();
 
     this.coolDownProtectionTimeout = setTimeout(() => {
-      // console.log("PROTECTION EXPIRED");
       this.coolDownProtected = false;
       ui.hideProtection();
     }, 3000);

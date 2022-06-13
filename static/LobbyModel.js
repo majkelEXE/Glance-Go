@@ -28,8 +28,6 @@ class LobbyModel {
     loader.load("./assets/models/source/player.fbx", function (object) {
       self.mixer = new THREE.AnimationMixer(object);
 
-      console.log(object);
-
       const action = self.mixer.clipAction(object.animations[1]);
       action.play();
 
@@ -75,8 +73,6 @@ class LobbyModel {
     if (this.mixer) {
       this.mixer.update(delta);
     }
-
-    console.log("render leci lobby");
   };
 }
 
