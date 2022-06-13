@@ -99,10 +99,24 @@ class Game {
         if (player.mixer) {
           player.mixer.update(delta);
         }
+
+        if (player.model.children[player.model.children.length - 1]) {
+          player.model.children[player.model.children.length - 1].lookAt(
+            this.goal.position
+          );
+        }
       });
     }
 
     if (this.ownPlayer != undefined) {
+      if (
+        this.ownPlayer.model.children[this.ownPlayer.model.children.length - 1]
+      ) {
+        this.ownPlayer.model.children[
+          this.ownPlayer.model.children.length - 1
+        ].lookAt(this.goal.position);
+      }
+
       //COLLISION
 
       let symbols = this.scene.children.filter(
@@ -365,7 +379,6 @@ class Game {
         object.scene.position.setY(-1000);
         object.scene.position.setZ(0);
 
-        console.log(object);
         // dodanie do sceny
         self.scene.add(object.scene);
       });

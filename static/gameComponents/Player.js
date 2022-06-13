@@ -10,7 +10,7 @@
 
 // const pionek = new Player();
 
-import { ui } from "./../Main.js";
+import { game, ui } from "./../Main.js";
 
 export default class Player {
   constructor(name, color, model) {
@@ -28,6 +28,43 @@ export default class Player {
         child.material.needsUpdate = true;
       }
     });
+    this.loader = new THREE.FontLoader();
+
+    this.loader.load("./../assets/Russo.json", (font) => {
+      const geometry = new THREE.TextGeometry(this.name, {
+        font: font,
+        size: 20,
+        height: 2,
+      });
+
+      const text = new THREE.Mesh(
+        geometry,
+        new THREE.MeshPhongMaterial({ color: this.color })
+      );
+
+      text.geometry.center();
+
+      text.position.y += 220;
+      text.position.z -= 20;
+
+      this.model.add(text);
+    });
+
+    console.log(this.model);
+    // this.model.add(
+    //   new THREE.Mesh(
+    //     new THREE.TextGeometry("DUPA", {
+    //       size: 50,
+    //       height: 10,
+    //       curveSegments: 12,
+
+    //       bevelThickness: 1,
+    //       bevelSize: 1,
+    //       bevelEnabled: true,
+    //     }),
+    //     new THREE.MeshPhongMaterial({ color: 0x00ffff })
+    //   )
+    // );
 
     this.mixer = new THREE.AnimationMixer(this.model);
     this.running = true;
