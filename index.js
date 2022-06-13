@@ -129,7 +129,7 @@ wss.on("connection", function connection(ws) {
         }
         break;
       case "setReady":
-        console.log(data);
+        // console.log(data);
         var requestedRoom = rooms.filter(
           (room) => room.roomName == data.roomName
         )[0];
@@ -260,7 +260,7 @@ wss.on("connection", function connection(ws) {
 
         break;
       case "leaveRoom":
-        console.log(data);
+        // console.log(data);
 
         var requestedRoom = rooms.filter(
           (room) => room.roomName == data.roomName
@@ -290,7 +290,7 @@ wss.on("connection", function connection(ws) {
           (room) => room.roomName == data.roomName
         )[0];
 
-        console.log(requestedRoom);
+        // console.log(requestedRoom);
 
         if (requestedRoom) {
           requestedRoom.clients.forEach((client) => {
@@ -319,7 +319,7 @@ wss.on("connection", function connection(ws) {
             });
             requestedRoom.cards.splice(0, 1);
 
-            console.log(requestedRoom.cards);
+            // console.log(requestedRoom.cards);
 
             requestedRoom.clients.forEach((client) => {
               if (client.wsClient.readyState === ws.OPEN) {
@@ -359,7 +359,7 @@ wss.on("connection", function connection(ws) {
               return room.roomName != requestedRoom.roomName;
             });
 
-            console.log(rooms);
+            // console.log(rooms);
           }
         }
 

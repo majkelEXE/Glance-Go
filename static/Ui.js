@@ -44,6 +44,8 @@ class Ui {
   }
 
   showLobby = () => {
+    document.querySelector(".instuctionsReference").style.display = "none";
+    document.querySelector(".historyReference").style.display = "none";
     document.getElementById("joinRoomMenu").style.display = "none";
     document.getElementById("manageRoomMenu").style.display = "flex";
 
