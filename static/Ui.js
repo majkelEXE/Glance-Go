@@ -116,7 +116,17 @@ class Ui {
     )[0].innerHTML = `<div id='gameMenu'><div id='ownCard'></div><div id='gameInfo'><div id='usersContainer'><p>USERS</p><div id='users'></div></div><div id='cardsLeftContainer'><p>CARDS LEFT</p><div id='cardsLeft'></div></div><div id='coolDownContainer'><p>COOLDOWN</p><div id='coolDown'></div><div id='protectionCooldown'></div></div><div id="positionReset"><i class="fa-solid fa-arrow-rotate-right"></i></div></div></div><div id='root'></div>`;
 
     document.getElementById("positionReset").addEventListener("click", () => {
-      game.ownPlayer.model.position.set(0, 0, 0);
+      function randomSpherePoint(x0, z0, radius) {
+        var u = Math.random();
+        var v = Math.random();
+        var theta = 2 * Math.PI * u;
+        var phi = Math.acos(2 * v - 1);
+        var x = x0 + radius * Math.sin(phi) * Math.cos(theta);
+        var z = z0 + radius * Math.sin(phi) * Math.sin(theta);
+        return [x, 0, z];
+      }
+
+      game.ownPlayer.model.position.set(...randomSpherePoint(0, 0, 450));
     });
 
     initializeGame();
