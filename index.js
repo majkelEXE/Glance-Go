@@ -6,6 +6,7 @@ var path = require("path");
 const MongoClient = require("mongodb").MongoClient;
 require("dotenv").config();
 var url = process.env.MONGOURI;
+var cors = require("cors");
 
 var CardSetter = require("./scripts/cardSetter");
 var Card = require("./schemes/Card");
@@ -20,6 +21,8 @@ var symbolsCoordinates = require("./data/symbolsCoordinates.json");
 var rooms = [];
 let numberOfSymbols;
 //
+
+app.use(cors());
 
 app.use(express.static("static"));
 
