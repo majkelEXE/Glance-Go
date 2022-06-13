@@ -103,22 +103,26 @@ wss.on("connection", function connection(ws) {
         )[0];
 
         if (requestedRoom) {
-          if (
-            requestedRoom.clients.filter(
-              (client) => client.clientName == data.clientName
-            ).length == 0
-          ) {
-            requestedRoom.addClient(new Client(data.clientName, ws));
-            let refreshData = requestedRoom.getRefreshedClientsMessage();
-            ws.send(JSON.stringify({ message: "joined" }));
-
-            requestedRoom.clients.forEach((client) => {
-              if (client.wsClient.readyState === ws.OPEN) {
-                client.wsClient.send(refreshData, { binary: isBinary });
-              }
-            });
+          if (requestedRoom.isStarted) {
+            ws.send(JSON.stringify({ message: "roomAlreadyStarted" }));
           } else {
-            ws.send(JSON.stringify({ message: "nickNameExist" }));
+            if (
+              requestedRoom.clients.filter(
+                (client) => client.clientName == data.clientName
+              ).length == 0
+            ) {
+              requestedRoom.addClient(new Client(data.clientName, ws));
+              let refreshData = requestedRoom.getRefreshedClientsMessage();
+              ws.send(JSON.stringify({ message: "joined" }));
+
+              requestedRoom.clients.forEach((client) => {
+                if (client.wsClient.readyState === ws.OPEN) {
+                  client.wsClient.send(refreshData, { binary: isBinary });
+                }
+              });
+            } else {
+              ws.send(JSON.stringify({ message: "nickNameExist" }));
+            }
           }
         } else {
           ws.send(JSON.stringify({ message: "roomNotExist" }));
@@ -148,6 +152,7 @@ wss.on("connection", function connection(ws) {
             requestedRoom.clients.filter((client) => client.ready == false)
               .length == 0
           ) {
+            requestedRoom.isStarted = true;
             //console.log(requestedRoom.clients.length.toString()); //karta z tym indeksem to mainCard
 
             const roomCardSetter = new CardSetter();
@@ -403,6 +408,10 @@ app.get("/getHistory", async (req, res) => {
 
 app.get("/history", async (req, res) => {
   res.sendFile(__dirname + "/static/history.html");
+});
+
+app.get("/instructions", async (req, res) => {
+  res.sendFile(__dirname + "/static/instructions.html");
 });
 
 //test

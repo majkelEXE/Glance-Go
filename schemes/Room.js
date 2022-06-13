@@ -4,6 +4,7 @@ class Room {
       (this.clients = [ownerClient]),
       (this.cards = []);
     this.roundNumber = 0;
+    this.isStarted = false;
   }
 
   addClient(client) {
