@@ -31,6 +31,7 @@ class Ui {
         numberOfSymbols: parseInt(
           document.getElementById("numberOfSymbols").innerHTML.slice(-1)
         ),
+        collision: document.getElementById("collision").checked,
       };
 
       net.sendMessage(message);
@@ -112,7 +113,11 @@ class Ui {
     cancelAnimationFrame(lobbyModel.id);
     document.getElementsByTagName(
       "body"
-    )[0].innerHTML = `<div id='gameMenu'><div id='ownCard'></div><div id='gameInfo'><div id='usersContainer'><p>USERS</p><div id='users'></div></div><div id='cardsLeftContainer'><p>CARDS LEFT</p><div id='cardsLeft'></div></div><div id='coolDownContainer'><p>COOLDOWN</p><div id='coolDown'></div><div id='protectionCooldown'></div></div></div></div><div id='root'></div>`;
+    )[0].innerHTML = `<div id='gameMenu'><div id='ownCard'></div><div id='gameInfo'><div id='usersContainer'><p>USERS</p><div id='users'></div></div><div id='cardsLeftContainer'><p>CARDS LEFT</p><div id='cardsLeft'></div></div><div id='coolDownContainer'><p>COOLDOWN</p><div id='coolDown'></div><div id='protectionCooldown'></div></div><div id="positionReset"><i class="fa-solid fa-arrow-rotate-right"></i></div></div></div><div id='root'></div>`;
+
+    document.getElementById("positionReset").addEventListener("click", () => {
+      game.ownPlayer.model.position.set(0, 0, 0);
+    });
 
     initializeGame();
   };

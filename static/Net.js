@@ -80,6 +80,7 @@ class Net {
         case "start":
           ui.startGame();
           ui.showGameInterface();
+          game.collision = respond.collision;
           game.ownCard = respond.ownCard;
           game.mainCard = respond.mainCard;
           game.roundNumber = respond.roundNumber;

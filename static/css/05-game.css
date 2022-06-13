@@ -87,3 +87,13 @@
     width: 0px;
   }
 }
+
+#positionReset {
+  transition: 0.5s;
+}
+
+#positionReset:hover {
+  transition: 0.5s;
+  transform: rotate(360deg);
+  cursor: pointer;
+}

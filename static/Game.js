@@ -75,6 +75,7 @@ class Game {
     this.symbols = [];
     this.roundNumber;
     this.cardsLeft = null;
+    this.collision;
 
     this.id;
     //
@@ -212,7 +213,7 @@ class Game {
 
       let collisionWithPlayer = false;
 
-      if (this.players.length > 0) {
+      if (this.players.length > 0 && game.collision) {
         this.players.forEach((player) => {
           if (
             areSpheresCollided(

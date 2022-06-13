@@ -19,6 +19,7 @@ var symbolsCoordinates = require("./data/symbolsCoordinates.json");
 //ZMIENNE Z DANYMI DYNAMICZNYMI
 var rooms = [];
 let numberOfSymbols;
+let collision;
 //
 
 app.use(express.static("static"));
@@ -140,6 +141,7 @@ wss.on("connection", function connection(ws) {
 
         if (requestedUser.owner) {
           numberOfSymbols = data.numberOfSymbols;
+          collision = data.collision;
         }
 
         if (requestedUser) {
@@ -198,6 +200,7 @@ wss.on("connection", function connection(ws) {
                             cardsLeft:
                               requestedRoom.cards.length -
                               requestedRoom.clients.length,
+                            collision,
                           });
 
                           requestedRoom.clients.forEach((client, i) => {
