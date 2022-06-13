@@ -1,6 +1,6 @@
 class CardSetter {
   constructor() {
-    this.symbols = [
+    this.allSymbols = [
       "apricot",
       "asparagus",
       "avocado",
@@ -63,6 +63,7 @@ class CardSetter {
 
   renderCardSet(symbolsNumber) {
     //This has to be a prime + 1
+
     let numberOfSymbolsOnCard = symbolsNumber;
 
     let shuffleSymbolsOnCard = true;
@@ -75,6 +76,23 @@ class CardSetter {
 
     //Total cards number (from algo)
     let numberOfCards = n ** 2 + n + 1;
+
+    this.symbols = [];
+
+    if (symbolsNumber != 8) {
+      this.indexes = [];
+      while (this.indexes.length != numberOfCards) {
+        let randomNumber = Math.floor(Math.random() * (56 - 0) + 0);
+        if (!this.indexes.includes(randomNumber)) {
+          this.indexes.push(randomNumber);
+        }
+      }
+      this.indexes.forEach((index) => {
+        this.symbols.push(this.allSymbols[index]);
+      });
+    } else {
+      this.symbols = this.allSymbols;
+    }
 
     //First set of cards
     for (let i = 0; i < n + 1; i++) {
@@ -126,6 +144,7 @@ class CardSetter {
     if (shuffleCards) {
       shuffle(cards);
     }
+
     // console.log(cards.map((card) => card.map((num) => this.symbols[num - 1])));
     cards = cards.map((card) => {
       return card.map((num) => this.symbols[num - 1]);

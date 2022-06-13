@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/01-variables.css" />
     <link rel="stylesheet" href="css/02-global.css" />
-    <link rel="stylesheet" href="css/07-history.css" />
+    <link rel="stylesheet" href="css/08-instructions.css" />
     <!--  -->
     <link
       rel="stylesheet"
@@ -27,8 +27,78 @@
     <a class="historyReference" href="/"
       ><i class="fa-solid fa-house-chimney"></i
     ></a>
-    <div>
-      <h1 class="gameTitleMenu">Instuctions</h1>
+    <div id="instructionsContainer">
+      <h1 class="gameTitleMenu">ZASADY GRY</h1>
+      <hr />
+      <div id="summary">
+        <a href="#terminologia">1. Terminologia</a>
+        <a href="#rozgrywka">2. Rozgrywka</a>
+      </div>
+      <hr />
+
+      <div class="instructionBigSection">
+        <h3 id="terminologia">1. Terminologia</h3>
+        <div class="instructionSmallSection">
+          <p>
+            <b>Karta gracza</b> – zbiór symboli widocznych na granatowym pasku u
+            dołu ekranu. Każdy gracz ma indywidualną kartę.
+          </p>
+          <img src="./assets/instructions/pic1.png" alt="pic1" />
+        </div>
+        <div class="instructionSmallSection">
+          <p>
+            <b>Karta rozgrywki</b> – karta umiejscowiona na planszy, czyli
+            wszystkie obrazki na które ludzik może wejść. Karta rozgrywki jest
+            taka sama dla wszystkich graczy.
+          </p>
+          <img src="./assets/instructions/pic2.png" alt="pic2" />
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="instructionBigSection">
+        <h3 id="rozgrywka">2. Rozgrywka</h3>
+
+        <div class="instructionSmallSection">
+          <p>
+            Gra polega na tym, aby gracz odnalazł identyczny symbol na karcie
+            swojej i karcie rozgrywki. Zawsze istnieje tylko i wyłącznie jeden
+            symbol, który znajduje się na karcie rozgrywki i na karcie gracza.
+          </p>
+          <img src="./assets/instructions/pic3.png" alt="pic3" />
+        </div>
+        <div class="instructionSmallSection">
+          <p>
+            Po dostrzeżeniu gracz musi jak najszybciej udać się na dany symbol,
+            aby zdobyć punkt.
+          </p>
+          <img src="./assets/instructions/pic4.png" alt="pic4" />
+        </div>
+        <div class="instructionSmallSection">
+          <p>
+            Po wejściu użytkownika na poprawny symbol otrzymuje on punkt oraz
+            nie może sprawdzić kolejnego symbolu przez 3 sekundy. Zmienia się
+            także karta użytkownika, użytkownik otrzymuje kartę, która wcześniej
+            była kartą rozgrywki. Losowana jest nowa karta rozgrywki.
+          </p>
+          <img src="./assets/instructions/pic5.png" alt="pic5" />
+        </div>
+        <div class="instructionSmallSection">
+          <p>
+            Gdy użytkownik wejdzie na symbol którego nie ma na swojej karcie
+            zostaje ukarany 5 sekundami bez możliwości sprawdzenia symbolu.
+          </p>
+          <img src="./assets/instructions/pic6.png" alt="pic6" />
+        </div>
+        <div class="instructionSmallSection">
+          <p>
+            W lewym górnym rogu widoczne są bieżące wyniki rozgrywki wraz z
+            licznikiem kart do zakończenia rogrywki
+          </p>
+          <img src="./assets/instructions/pic7.png" alt="pic7" />
+        </div>
+      </div>
     </div>
   </body>
 </html>

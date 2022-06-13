@@ -284,7 +284,6 @@ wss.on("connection", function connection(ws) {
         var requestedRoom = rooms.filter(
           (room) => room.roomName == data.roomName
         )[0];
-
         if (requestedRoom) {
           requestedRoom.clients.forEach((client) => {
             if (client.clientName == data.playerName) {
